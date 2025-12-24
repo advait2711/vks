@@ -36,4 +36,4 @@ df = df.rename(columns=COLUMN_ORDER)
 # Export to Excel
 df.to_excel(OUTPUT_EXCEL, index=False)
 
-print(f"✅ Excel file created successfully → {OUTPUT_EXCEL}")
+print(f"Excel file created successfully → {OUTPUT_EXCEL}")
