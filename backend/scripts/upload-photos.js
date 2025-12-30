@@ -23,11 +23,11 @@ const eventDescriptions = {
     '2024-2025': {
         'Event1': {
             name: 'Ponnonam 2024',
-            description: 'A vibrant celebration of Onam festival bringing together the Kerala Samaj community with traditional dances, pookalam competitions, and the grand Onam Sadya feast.'
+            description: 'A vibrant celebration of Onam festival bringing together the Kerala Samajam Vasai East community with traditional dances, pookalam competitions, and the grand Onam Sadya feast.'
         },
         'Event2': {
             name: '24th Annual Celebration',
-            description: 'Marking 24 years of Kerala Samaj, this grand celebration featured cultural performances, community awards, and a memorable gathering of members across generations.'
+            description: 'Marking 24 years of Kerala Samajam Vasai East, this grand celebration featured cultural performances, community awards, and a memorable gathering of members across generations.'
         }
     },
     '2025-2026': {
@@ -36,17 +36,17 @@ const eventDescriptions = {
     },
     'Earlier Glimpse': {
         name: 'Earlier Glimpse',
-        description: 'A nostalgic collection of memorable moments from past Kerala Samaj events, capturing the essence of our community\'s journey and cherished traditions.'
+        description: 'A nostalgic collection of memorable moments from past Kerala Samajam Vasai East events, capturing the essence of our community\'s journey and cherished traditions.'
     },
     'Social Work': {
         photos: [
             {
                 name: 'IMG-20251222-WA0219.jpg',
-                description: 'Kerala Samaj community outreach program - Providing essential supplies and support to underprivileged families in the local area.'
+                description: 'Kerala Samajam Vasai East community outreach program - Providing essential supplies and support to underprivileged families in the local area.'
             },
             {
                 name: 'PHOTO-2025-04-25-12-14-26.jpg',
-                description: 'Educational support initiative - Kerala Samaj members distributing books and learning materials to children from economically disadvantaged backgrounds.'
+                description: 'Educational support initiative - Kerala Samajam Vasai East members distributing books and learning materials to children from economically disadvantaged backgrounds.'
             }
         ]
     }
@@ -272,7 +272,7 @@ async function uploadSocialWork() {
         if (publicUrl) {
             // Find matching description
             const photoInfo = eventDescriptions['Social Work'].photos.find(p => p.name === file);
-            const description = photoInfo ? photoInfo.description : 'Kerala Samaj community service initiative making a positive impact in our local community.';
+            const description = photoInfo ? photoInfo.description : 'Kerala Samajam Vasai East community service initiative making a positive impact in our local community.';
 
             await insertPhotoMetadata({
                 photo_url: publicUrl,
