@@ -1,0 +1,336 @@
+.updateinfo-page {
+    min-height: 100vh;
+    padding: 2rem 5%;
+    background: var(--cream-white);
+}
+
+.updateinfo-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+    position: relative;
+}
+
+.updateinfo-header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--gold-accent), var(--emerald-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.updateinfo-header p {
+    color: var(--text-dark);
+    opacity: 0.8;
+    font-size: 1.1rem;
+}
+
+/* Profile Photo Section */
+.profile-photo-section {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.profile-photo-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--gold-primary);
+    box-shadow: 0 4px 16px rgba(251, 191, 36, 0.3);
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(16, 185, 129, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.profile-photo-circle:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-gold);
+}
+
+.profile-photo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-photo-placeholder {
+    width: 60%;
+    height: 60%;
+    color: var(--gold-accent);
+    opacity: 0.6;
+}
+
+.profile-photo-placeholder svg {
+    width: 100%;
+    height: 100%;
+}
+
+.photo-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.photo-btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.upload-btn {
+    background: linear-gradient(135deg, var(--gold-primary), var(--emerald-primary));
+    color: var(--pure-white);
+}
+
+.upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-gold);
+}
+
+.save-photo-btn {
+    background: var(--emerald-primary);
+    color: var(--pure-white);
+}
+
+.save-photo-btn:hover {
+    background: var(--emerald-dark);
+    transform: translateY(-2px);
+}
+
+.delete-photo-btn {
+    background: transparent;
+    color: #dc2626;
+    border: 2px solid #dc2626;
+}
+
+.delete-photo-btn:hover {
+    background: #fee2e2;
+    transform: translateY(-2px);
+}
+
+.photo-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--pure-white);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+}
+
+.update-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.form-section h3 {
+    color: var(--gold-accent);
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--gold-primary);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.2rem;
+}
+
+.form-group label {
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 0.8rem 1rem;
+    border: 2px solid rgba(251, 191, 36, 0.3);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--text-dark);
+    background: var(--soft-white);
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--emerald-primary);
+    background: var(--pure-white);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Login Form Specific Styles */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Read-only Section */
+.readonly-section {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.05), rgba(16, 185, 129, 0.05));
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px solid rgba(251, 191, 36, 0.2);
+}
+
+.readonly-input {
+    background: rgba(0, 0, 0, 0.05) !important;
+    cursor: not-allowed;
+    color: var(--text-dark) !important;
+    font-weight: 500;
+}
+
+/* Logout Button */
+.logout-btn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    padding: 0.6rem 1.5rem;
+    background: transparent;
+    color: var(--text-dark);
+    border: 2px solid var(--emerald-primary);
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: var(--emerald-primary);
+    color: var(--pure-white);
+}
+
+/* Error and Success Messages */
+.error-message {
+    padding: 1rem;
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    color: #991b1b;
+    border-radius: 8px;
+    border-left: 4px solid #dc2626;
+    font-weight: 500;
+}
+
+.success-message {
+    padding: 1rem;
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    color: #065f46;
+    border-radius: 8px;
+    border-left: 4px solid #10b981;
+    font-weight: 500;
+}
+
+/* Disabled State */
+button:disabled,
+input:disabled,
+textarea:disabled,
+select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.submit-btn,
+.reset-btn {
+    flex: 1;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, var(--gold-primary), var(--emerald-primary));
+    color: var(--pure-white);
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-gold);
+}
+
+.reset-btn {
+    background: transparent;
+    color: var(--text-dark);
+    border: 2px solid var(--gold-primary);
+}
+
+.reset-btn:hover {
+    background: var(--soft-white);
+    border-color: var(--emerald-primary);
+}
+
+@media (max-width: 768px) {
+    .updateinfo-page {
+        padding: 1.5rem 4%;
+    }
+
+    .updateinfo-header h1 {
+        font-size: 2rem;
+    }
+
+    .form-container {
+        padding: 1.5rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,180 @@
+.aboutus-page {
+    min-height: 100vh;
+    padding: 2rem 5%;
+    background: var(--cream-white);
+}
+
+.aboutus-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+}
+
+.aboutus-header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--gold-accent), var(--emerald-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.aboutus-header p {
+    color: var(--text-dark);
+    opacity: 0.8;
+    font-size: 1.1rem;
+}
+
+.aboutus-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-section {
+    margin-bottom: 4rem;
+}
+
+.about-section h2 {
+    font-size: 2rem;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.about-section p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-dark);
+    opacity: 0.8;
+    margin-bottom: 1rem;
+}
+
+.mission-vision {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.mission-card {
+    background: var(--pure-white);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.mission-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.mission-card h3 {
+    color: var(--gold-accent);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.mission-card p {
+    text-align: center;
+}
+
+.activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.activity-card {
+    background: var(--pure-white);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.activity-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.activity-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.activity-card h4 {
+    color: var(--emerald-primary);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.activity-card p {
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.stats-section {
+    background: linear-gradient(135deg, var(--soft-white), var(--cream-white));
+    padding: 3rem 2rem;
+    border-radius: 12px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold-accent), var(--emerald-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: var(--text-dark);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .aboutus-page {
+        padding: 1.5rem 4%;
+    }
+
+    .aboutus-header h1 {
+        font-size: 2rem;
+    }
+
+    .about-section h2 {
+        font-size: 1.6rem;
+    }
+
+    .activities-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

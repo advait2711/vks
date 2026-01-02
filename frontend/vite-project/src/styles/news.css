@@ -1,0 +1,126 @@
+.news-page {
+    min-height: 100vh;
+    padding: 2rem 5%;
+    background: var(--cream-white);
+}
+
+.news-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+}
+
+.news-header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--gold-accent), var(--emerald-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.news-header p {
+    color: var(--text-dark);
+    opacity: 0.8;
+    font-size: 1.1rem;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.news-card {
+    background: var(--pure-white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.news-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+}
+
+.news-image {
+    width: 100%;
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.news-content {
+    padding: 1.5rem;
+}
+
+.news-date {
+    display: inline-block;
+    color: var(--emerald-primary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.news-card h2 {
+    font-size: 1.3rem;
+    color: var(--text-dark);
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+}
+
+.news-card p {
+    color: var(--text-dark);
+    opacity: 0.7;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.read-more {
+    background: transparent;
+    border: none;
+    color: var(--gold-accent);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.read-more:hover {
+    color: var(--emerald-primary);
+    transform: translateX(5px);
+}
+
+@media (max-width: 768px) {
+    .news-page {
+        padding: 1.5rem 4%;
+    }
+
+    .news-header h1 {
+        font-size: 2rem;
+    }
+
+    .news-header p {
+        font-size: 1rem;
+    }
+
+    .news-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .news-image {
+        height: 180px;
+    }
+
+    .news-card h2 {
+        font-size: 1.1rem;
+    }
+}

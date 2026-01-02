@@ -1,0 +1,341 @@
+.members-page {
+    min-height: 100vh;
+    padding: 2rem 5%;
+    background: var(--cream-white);
+}
+
+/* Office Bearers Section */
+.office-bearers-section {
+    max-width: 1400px;
+    margin: 0 auto 4rem;
+    padding: 3rem 0;
+}
+
+.office-bearers-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.office-bearers-header h1 {
+    font-size: 3rem;
+    background: linear-gradient(135deg, var(--gold-accent), var(--emerald-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.office-bearers-header p {
+    color: var(--text-dark);
+    opacity: 0.8;
+    font-size: 1.2rem;
+}
+
+.team-description {
+    max-width: 900px;
+    margin: 1rem auto 0;
+    line-height: 1.8;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    opacity: 0.85;
+}
+
+.office-bearers-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+}
+
+.bearers-row {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    width: 100%;
+    flex-wrap: wrap;
+    max-width: 900px;
+}
+
+.office-bearer-card {
+    background: var(--pure-white);
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    flex: 0 1 auto;
+    min-width: 280px;
+    max-width: 350px;
+}
+
+.office-bearer-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold-accent), var(--emerald-primary));
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.office-bearer-card:hover::before {
+    transform: scaleX(1);
+}
+
+.office-bearer-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.bearer-photo-wrapper {
+    width: 250px;
+    height: 250px;
+    margin: 0 auto 1.5rem;
+    position: relative;
+}
+
+.bearer-photo-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background: linear-gradient(135deg, var(--gold-accent), var(--emerald-primary));
+    border-radius: 50%;
+    z-index: 0;
+    animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.bearer-photo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: contain;
+    object-position: center;
+    background: white;
+    border: 6px solid var(--pure-white);
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.office-bearer-card:hover .bearer-photo {
+    transform: scale(1.05);
+}
+
+.bearer-info {
+    margin-top: 1rem;
+}
+
+.bearer-info h3 {
+    font-size: 1.4rem;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.bearer-designation {
+    display: inline-block;
+    color: var(--emerald-primary);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.5rem 1.5rem;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(16, 185, 129, 0.1));
+    border-radius: 25px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+}
+
+.bearer-designation::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 25px;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--gold-accent), var(--emerald-primary));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+}
+
+
+.members-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+}
+
+.members-header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--gold-accent), var(--emerald-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.members-header p {
+    color: var(--text-dark);
+    opacity: 0.8;
+    font-size: 1.1rem;
+}
+
+.members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.member-card {
+    background: var(--pure-white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.member-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+}
+
+.member-image {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--soft-white), var(--cream-white));
+    padding: 1rem;
+}
+
+.member-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--gold-primary);
+}
+
+.member-info {
+    padding: 1.5rem;
+}
+
+.member-info h3 {
+    font-size: 1.3rem;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.member-role {
+    display: inline-block;
+    color: var(--emerald-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.3rem 1rem;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 20px;
+    margin-bottom: 1rem;
+}
+
+.member-contact {
+    margin-top: 1rem;
+    text-align: left;
+}
+
+.member-contact p {
+    color: var(--text-dark);
+    opacity: 0.7;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .members-page {
+        padding: 1.5rem 4%;
+    }
+
+    .office-bearers-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .office-bearers-header p {
+        font-size: 1rem;
+    }
+
+    .office-bearers-container {
+        gap: 2.5rem;
+    }
+
+    .bearers-row {
+        gap: 2rem;
+    }
+
+    .office-bearer-card {
+        padding: 2rem;
+        min-width: 240px;
+        max-width: 300px;
+    }
+
+    .bearer-photo-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .office-bearers-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .office-bearers-container {
+        gap: 2rem;
+    }
+
+    .bearers-row {
+        gap: 1.5rem;
+    }
+
+    .office-bearer-card {
+        padding: 1.5rem;
+        min-width: 260px;
+        max-width: 100%;
+    }
+
+    .bearer-photo-wrapper {
+        width: 180px;
+        height: 180px;
+    }
+
+    .bearer-info h3 {
+        font-size: 1.2rem;
+    }
+
+    .bearer-designation {
+        font-size: 0.9rem;
+        padding: 0.4rem 1.2rem;
+    }
+}
