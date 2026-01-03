@@ -1,37 +1,23 @@
 import bcrypt from 'bcrypt';
 
-/**
- * Admin credentials loaded from environment variables
- * Set ADMIN_USERNAME and ADMIN_PASSWORD in .env file
- */
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
 
-
-// if (!ADMIN_USERNAME || !ADMIN_PASSWORD) {
-//     console.error('ERROR: ADMIN_USERNAME and ADMIN_PASSWORD must be set in .env file');
-//     process.exit(1);
-// }
-
-
-const ADMIN_PASSWORD_HASH = await bcrypt.hash(ADMIN_PASSWORD, 10);
+if (!ADMIN_USERNAME || !ADMIN_PASSWORD_HASH) {
+    console.error('ADMIN_USERNAME or ADMIN_PASSWORD_HASH missing in .env');
+    process.exit(1);
+}
 
 /**
  * Authenticate admin user
- * @param {string} username - Admin username
- * @param {string} password - Plain text password
- * @returns {boolean} True if authenticated, false otherwise
  */
 async function authenticateAdmin(username, password) {
     try {
-        
         if (username !== ADMIN_USERNAME) {
             return false;
         }
 
-        
-        const isMatch = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
-        return isMatch;
+        return await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
     } catch (error) {
         console.error('Admin authentication error:', error.message);
         return false;
@@ -40,13 +26,11 @@ async function authenticateAdmin(username, password) {
 
 /**
  * Get admin info (without password)
- * @param {string} username - Admin username
- * @returns {Object|null} Admin info or null
  */
 function getAdminInfo(username) {
     if (username === ADMIN_USERNAME) {
         return {
-            username: ADMIN_USERNAME,
+            username,
             role: 'admin'
         };
     }
@@ -58,4 +42,3 @@ export {
     getAdminInfo,
     ADMIN_USERNAME
 };
-
