@@ -2,6 +2,19 @@ import { Link } from "react-router-dom";
 import "../styles/footer.css";
 
 const Footer = () => {
+  // Function to scroll to top when clicking on footer links
+  const scrollToTop = () => {
+    // Target the #root element which is the actual scroll container
+    const root = document.getElementById('root');
+    if (root) {
+      root.scrollTop = 0;
+    }
+    // Fallbacks
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  };
+
   return (
     <footer className="footer">
       <div className="footer-content">
@@ -25,12 +38,12 @@ const Footer = () => {
         <div className="footer-section">
           <h3>Quick Links</h3>
           <div className="footer-links">
-            <Link to="/news">News & Events</Link>
-            <Link to="/gallery">Photo Gallery</Link>
-            <Link to="/social-work">Social Work</Link>
-            <Link to="/members">Members</Link>
-            <Link to="/about">About Us</Link>
-            <Link to="/update-info">Update Info</Link>
+            <Link to="/news" onClick={scrollToTop}>News & Events</Link>
+            <Link to="/gallery" onClick={scrollToTop}>Photo Gallery</Link>
+            <Link to="/social-work" onClick={scrollToTop}>Social Work</Link>
+            <Link to="/members" onClick={scrollToTop}>Members</Link>
+            <Link to="/about" onClick={scrollToTop}>About Us</Link>
+            <Link to="/update-info" onClick={scrollToTop}>Update Info</Link>
           </div>
         </div>
 
