@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import "../styles/gallery.css";
 import AlbumView from "../components/AlbumView";
 
@@ -13,6 +14,7 @@ const Gallery = () => {
     const [showAlbum, setShowAlbum] = useState(false);
     const [allPhotos, setAllPhotos] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { t } = useTranslation();
 
     const years = ["Earlier Glimpse", "2024-2025", "2025-2026"];
 
@@ -91,13 +93,13 @@ const Gallery = () => {
     return (
         <div className="gallery-page">
             <div className="gallery-header">
-                <h1>Photo Gallery</h1>
-                <p>Explore the vibrant moments of Kerala Samajam Vasai East</p>
+                <h1>{t('gallery.title')}</h1>
+                <p>{t('gallery.subtitle')}</p>
             </div>
 
             <div className="gallery-controls">
                 <div className="year-selector">
-                    <label htmlFor="year-select">Select Year/Collection:</label>
+                    <label htmlFor="year-select">{t('gallery.selectYear')}:</label>
                     <select
                         id="year-select"
                         value={selectedYear}
@@ -134,7 +136,7 @@ const Gallery = () => {
             {loading ? (
                 <div className="loading-spinner">
                     <div className="spinner"></div>
-                    <p>Loading photos...</p>
+                    <p>{t('gallery.loading')}</p>
                 </div>
             ) : (
                 <>
@@ -163,7 +165,7 @@ const Gallery = () => {
 
                     <div className="gallery-actions">
                         <button className="view-album-btn" onClick={handleViewAlbum}>
-                            <span>📸</span> View Full Album
+                            <span>📸</span> {t('gallery.viewAlbum')}
                         </button>
                     </div>
                 </>
