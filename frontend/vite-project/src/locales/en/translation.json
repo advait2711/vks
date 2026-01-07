@@ -1,0 +1,97 @@
+{
+    "navbar": {
+        "logo": "Kerala Samajam Vasai East",
+        "news": "News",
+        "gallery": "Gallery",
+        "socialWork": "Social Work",
+        "members": "Members",
+        "aboutUs": "About Us",
+        "updateInfo": "Update Info"
+    },
+    "home": {
+        "welcome": "Welcome to Kerala Samajam Vasai East",
+        "tagline": "A vibrant community celebrating Kerala's culture, traditions, unity, and heritage across generations."
+    },
+    "about": {
+        "title": "About Kerala Samajam Vasai East",
+        "subtitle": "Celebrating Kerala's rich heritage and fostering community bonds",
+        "ourStory": "Our Story",
+        "storyP1": "Founded in 1985, Kerala Samajam Vasai East has been a cornerstone of the Malayali community, bringing together families to celebrate our rich cultural heritage. What started as a small gathering of 20 families has grown into a vibrant community of over 500 members.",
+        "storyP2": "We are dedicated to preserving Kerala's traditions while embracing modernity, creating a bridge between generations and keeping our culture alive for future generations.",
+        "mission": "Our Mission",
+        "missionText": "To create a united community that celebrates Kerala's culture, provides support to members, and promotes cultural exchange through events, education, and social initiatives.",
+        "vision": "Our Vision",
+        "visionText": "To be the premier organization for Malayalis, fostering cultural pride, community welfare, and creating lasting bonds across generations.",
+        "whatWeDo": "What We Do",
+        "culturalEvents": "Cultural Events",
+        "culturalEventsDesc": "Onam celebrations, Vishu, Kathakali performances, and more",
+        "foodFestivals": "Food Festivals",
+        "foodFestivalsDesc": "Traditional sadya, cooking workshops, and culinary events",
+        "educationalPrograms": "Educational Programs",
+        "educationalProgramsDesc": "Malayalam classes, cultural workshops for youth",
+        "communitySupport": "Community Support",
+        "communitySupportDesc": "Networking, mentorship, and assistance programs",
+        "ourImpact": "Our Impact",
+        "activeMembers": "Active Members",
+        "yearsOfService": "Years of Service",
+        "eventsAnnually": "Events Annually",
+        "familiesImpacted": "Families Impacted"
+    },
+    "members": {
+        "officeBearersTitle": "Office Bearers 2025-2028",
+        "teamDescription": "Our dedicated leadership team works tirelessly to preserve and promote Kerala's rich cultural heritage, organize community events, and foster unity among members. Together, they manage all aspects of Kerala Samajam Vasai East, ensuring a vibrant and inclusive community for all.",
+        "loading": "Loading office bearers...",
+        "errorLoading": "Error loading office bearers:"
+    },
+    "socialWork": {
+        "title": "Social Work",
+        "subtitle": "Making a difference in our community through service and compassion",
+        "ourInitiatives": "Our Community Initiatives",
+        "initiativesDesc": "Kerala Samajam Vasai East is committed to giving back to society. Through various social work initiatives, we strive to make a positive impact in the lives of those in need. Our community members actively participate in outreach programs, educational support, and welfare activities.",
+        "callToAction": "Join Us in Making a Difference",
+        "callToActionDesc": "If you would like to participate in our social work initiatives or have suggestions for community service projects, please reach out to us. Together, we can create a stronger, more compassionate community.",
+        "loading": "Loading..."
+    },
+    "gallery": {
+        "title": "Photo Gallery",
+        "subtitle": "Capturing memories from our events and celebrations",
+        "selectYear": "Select Year",
+        "viewAlbum": "View Album",
+        "photos": "photos",
+        "noPhotos": "No photos available for this year.",
+        "loading": "Loading..."
+    },
+    "news": {
+        "title": "News & Events",
+        "subtitle": "Stay updated with the latest from Kerala Samajam Vasai East",
+        "readMore": "Read More",
+        "noNews": "No news available at the moment.",
+        "loading": "Loading..."
+    },
+    "updateInfo": {
+        "title": "Update Your Information",
+        "subtitle": "Keep your profile information up to date",
+        "slNumber": "SL Number",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "address": "Address",
+        "submit": "Submit",
+        "cancel": "Cancel"
+    },
+    "footer": {
+        "orgName": "Kerala Samajam Vasai East (Regd.)",
+        "registrationInfo": "Registration No.: F-0000973(PLGR)",
+        "description": "Celebrating Kerala's rich heritage, culture, and traditions. Building a strong community that connects Keralites worldwide.",
+        "quickLinks": "Quick Links",
+        "newsEvents": "News & Events",
+        "photoGallery": "Photo Gallery",
+        "contactUs": "Contact Us",
+        "copyright": "Kerala Samajam Vasai East (Regd.). All Rights Reserved.",
+        "madeWith": "Made with ❤️ for the Kerala Community"
+    },
+    "language": {
+        "english": "English",
+        "malayalam": "മലയാളം"
+    }
+}
