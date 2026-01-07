@@ -214,3 +214,20 @@
     font-size: 1rem;
   }
 }
+
+/* Language Switcher Wrapper */
+.language-switcher-wrapper {
+  border-bottom: none !important;
+}
+
+.language-switcher-wrapper::after {
+  display: none !important;
+}
+
+@media (min-width: 769px) {
+  .language-switcher-wrapper {
+    margin-left: 1rem;
+    padding-left: 1rem;
+    border-left: 1px solid #e5e7eb;
+  }
+}
