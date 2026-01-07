@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import "../styles/socialwork.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
@@ -6,6 +7,7 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 const SocialWork = () => {
     const [photos, setPhotos] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchSocialWorkPhotos = async () => {
@@ -49,24 +51,21 @@ const SocialWork = () => {
     return (
         <div className="social-work-page">
             <div className="social-work-header">
-                <h1>Social Work</h1>
-                <p>Making a difference in our community through service and compassion</p>
+                <h1>{t('socialWork.title')}</h1>
+                <p>{t('socialWork.subtitle')}</p>
             </div>
 
             {loading ? (
                 <div className="loading-spinner">
                     <div className="spinner"></div>
-                    <p>Loading...</p>
+                    <p>{t('socialWork.loading')}</p>
                 </div>
             ) : (
                 <div className="social-work-content">
                     <div className="intro-section">
-                        <h2>Our Community Initiatives</h2>
+                        <h2>{t('socialWork.ourInitiatives')}</h2>
                         <p>
-                            Kerala Samajam Vasai East is committed to giving back to society. Through various
-                            social work initiatives, we strive to make a positive impact in the
-                            lives of those in need. Our community members actively participate
-                            in outreach programs, educational support, and welfare activities.
+                            {t('socialWork.initiativesDesc')}
                         </p>
                     </div>
 
@@ -94,11 +93,9 @@ const SocialWork = () => {
                     </div>
 
                     <div className="call-to-action">
-                        <h3>Join Us in Making a Difference</h3>
+                        <h3>{t('socialWork.callToAction')}</h3>
                         <p>
-                            If you would like to participate in our social work initiatives or
-                            have suggestions for community service projects, please reach out to
-                            us. Together, we can create a stronger, more compassionate community.
+                            {t('socialWork.callToActionDesc')}
                         </p>
                     </div>
                 </div>
