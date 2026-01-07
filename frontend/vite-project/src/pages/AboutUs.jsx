@@ -1,91 +1,89 @@
+import { useTranslation } from "react-i18next";
 import "../styles/aboutus.css";
 
 const AboutUs = () => {
+    const { t } = useTranslation();
+
     return (
         <div className="aboutus-page">
             <div className="aboutus-header">
-                <h1>About Kerala Samajam Vasai East</h1>
-                <p>Celebrating Kerala's rich heritage and fostering community bonds</p>
+                <h1>{t('about.title')}</h1>
+                <p>{t('about.subtitle')}</p>
             </div>
 
             <div className="aboutus-content">
                 <section className="about-section">
-                    <h2>Our Story</h2>
+                    <h2>{t('about.ourStory')}</h2>
                     <p>
-                        Founded in 1985, Kerala Samajam Vasai East has been a cornerstone of the Malayali community,
-                        bringing together families to celebrate our rich cultural heritage. What started as
-                        a small gathering of 20 families has grown into a vibrant community of over 500 members.
+                        {t('about.storyP1')}
                     </p>
                     <p>
-                        We are dedicated to preserving Kerala's traditions while embracing modernity,
-                        creating a bridge between generations and keeping our culture alive for future generations.
+                        {t('about.storyP2')}
                     </p>
                 </section>
 
                 <section className="about-section mission-vision">
                     <div className="mission-card">
                         <div className="card-icon">🎯</div>
-                        <h3>Our Mission</h3>
+                        <h3>{t('about.mission')}</h3>
                         <p>
-                            To create a united community that celebrates Kerala's culture, provides support
-                            to members, and promotes cultural exchange through events, education, and social initiatives.
+                            {t('about.missionText')}
                         </p>
                     </div>
 
                     <div className="mission-card">
                         <div className="card-icon">👁️</div>
-                        <h3>Our Vision</h3>
+                        <h3>{t('about.vision')}</h3>
                         <p>
-                            To be the premier organization for Malayalis, fostering cultural pride,
-                            community welfare, and creating lasting bonds across generations.
+                            {t('about.visionText')}
                         </p>
                     </div>
                 </section>
 
                 <section className="about-section">
-                    <h2>What We Do</h2>
+                    <h2>{t('about.whatWeDo')}</h2>
                     <div className="activities-grid">
                         <div className="activity-card">
                             <span className="activity-icon">🎭</span>
-                            <h4>Cultural Events</h4>
-                            <p>Onam celebrations, Vishu, Kathakali performances, and more</p>
+                            <h4>{t('about.culturalEvents')}</h4>
+                            <p>{t('about.culturalEventsDesc')}</p>
                         </div>
                         <div className="activity-card">
                             <span className="activity-icon">🍛</span>
-                            <h4>Food Festivals</h4>
-                            <p>Traditional sadya, cooking workshops, and culinary events</p>
+                            <h4>{t('about.foodFestivals')}</h4>
+                            <p>{t('about.foodFestivalsDesc')}</p>
                         </div>
                         <div className="activity-card">
                             <span className="activity-icon">🎓</span>
-                            <h4>Educational Programs</h4>
-                            <p>Malayalam classes, cultural workshops for youth</p>
+                            <h4>{t('about.educationalPrograms')}</h4>
+                            <p>{t('about.educationalProgramsDesc')}</p>
                         </div>
                         <div className="activity-card">
                             <span className="activity-icon">🤝</span>
-                            <h4>Community Support</h4>
-                            <p>Networking, mentorship, and assistance programs</p>
+                            <h4>{t('about.communitySupport')}</h4>
+                            <p>{t('about.communitySupportDesc')}</p>
                         </div>
                     </div>
                 </section>
 
                 <section className="about-section stats-section">
-                    <h2>Our Impact</h2>
+                    <h2>{t('about.ourImpact')}</h2>
                     <div className="stats-grid">
                         <div className="stat-card">
                             <div className="stat-number">500+</div>
-                            <div className="stat-label">Active Members</div>
+                            <div className="stat-label">{t('about.activeMembers')}</div>
                         </div>
                         <div className="stat-card">
                             <div className="stat-number">38</div>
-                            <div className="stat-label">Years of Service</div>
+                            <div className="stat-label">{t('about.yearsOfService')}</div>
                         </div>
                         <div className="stat-card">
                             <div className="stat-number">100+</div>
-                            <div className="stat-label">Events Annually</div>
+                            <div className="stat-label">{t('about.eventsAnnually')}</div>
                         </div>
                         <div className="stat-card">
                             <div className="stat-number">1000+</div>
-                            <div className="stat-label">Families Impacted</div>
+                            <div className="stat-label">{t('about.familiesImpacted')}</div>
                         </div>
                     </div>
                 </section>
