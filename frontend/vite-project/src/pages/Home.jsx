@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import "../styles/home.css";
 
 const images = [
@@ -11,6 +12,7 @@ const images = [
 
 const Home = () => {
   const [current, setCurrent] = useState(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -32,10 +34,9 @@ const Home = () => {
         ))}
 
         <div className="hero-content">
-          <h1>Welcome to Kerala Samajam Vasai East</h1>
+          <h1>{t('home.welcome')}</h1>
           <p>
-            A vibrant community celebrating Kerala’s culture, traditions,
-            unity, and heritage across generations.
+            {t('home.tagline')}
           </p>
         </div>
       </section>
