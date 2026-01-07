@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import "../styles/members.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
@@ -75,6 +76,7 @@ const Members = () => {
     const [officeBearers, setOfficeBearers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { t } = useTranslation();
 
     // Fetch office bearers from API
     useEffect(() => {
@@ -113,21 +115,19 @@ const Members = () => {
             {/* Office Bearers Section */}
             <div className="office-bearers-section">
                 <div className="office-bearers-header">
-                    <h1>Office Bearers 2025-2028</h1>
+                    <h1>{t('members.officeBearersTitle')}</h1>
                     <p className="team-description">
-                        Our dedicated leadership team works tirelessly to preserve and promote Kerala's rich cultural heritage,
-                        organize community events, and foster unity among members. Together, they manage all aspects of
-                        Kerala Samajam Vasai East, ensuring a vibrant and inclusive community for all.
+                        {t('members.teamDescription')}
                     </p>
                 </div>
 
                 {loading ? (
                     <div className="loading-message">
-                        <p>Loading office bearers...</p>
+                        <p>{t('members.loading')}</p>
                     </div>
                 ) : error ? (
                     <div className="error-message">
-                        <p>Error loading office bearers: {error}</p>
+                        <p>{t('members.errorLoading')} {error}</p>
                     </div>
                 ) : (
                     <div className="office-bearers-container">
