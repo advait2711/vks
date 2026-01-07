@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import axios from "axios";
 import "../styles/news.css";
 
@@ -10,6 +11,7 @@ const News = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchNews = async () => {
@@ -40,8 +42,8 @@ const News = () => {
         return (
             <div className="news-page">
                 <div className="news-header">
-                    <h1>Latest News & Updates</h1>
-                    <p>Loading news articles...</p>
+                    <h1>{t('news.title')}</h1>
+                    <p>{t('news.loading')}</p>
                 </div>
             </div>
         );
@@ -51,7 +53,7 @@ const News = () => {
         return (
             <div className="news-page">
                 <div className="news-header">
-                    <h1>Latest News & Updates</h1>
+                    <h1>{t('news.title')}</h1>
                     <p style={{ color: '#c33' }}>{error}</p>
                 </div>
             </div>
@@ -61,14 +63,14 @@ const News = () => {
     return (
         <div className="news-page">
             <div className="news-header">
-                <h1>Latest News & Updates</h1>
-                <p>Stay informed about Kerala Samajam Vasai East events, celebrations, and community news</p>
+                <h1>{t('news.title')}</h1>
+                <p>{t('news.subtitle')}</p>
             </div>
 
             <div className="news-grid">
                 {newsData.length === 0 ? (
                     <p style={{ textAlign: 'center', gridColumn: '1 / -1', padding: '3rem', color: '#6b7280' }}>
-                        No news articles available at the moment.
+                        {t('news.noNews')}
                     </p>
                 ) : (
                     newsData.map((article) => (
@@ -84,7 +86,7 @@ const News = () => {
                                     className="read-more"
                                     onClick={() => handleReadMore(article.id)}
                                 >
-                                    Read More →
+                                    {t('news.readMore')} →
                                 </button>
                             </div>
                         </article>
@@ -96,4 +98,3 @@ const News = () => {
 };
 
 export default News;
-
