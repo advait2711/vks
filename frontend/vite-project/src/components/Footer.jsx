@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "../styles/footer.css";
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   // Function to scroll to top when clicking on footer links
   const scrollToTop = () => {
     // Target the #root element which is the actual scroll container
@@ -19,13 +22,12 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-section">
-          <h3>Kerala Samajam Vasai East (Regd.)</h3>
+          <h3>{t('footer.orgName')}</h3>
           <p className="registration-info">
-            Registration No.: F-0000973(PLGR)
+            {t('footer.registrationInfo')}
           </p>
           <p>
-            Celebrating Kerala's rich heritage, culture, and traditions.
-            Building a strong community that connects Keralites worldwide.
+            {t('footer.description')}
           </p>
           <div className="social-links">
             <a href="#" className="social-icon" aria-label="Facebook">📘</a>
@@ -36,19 +38,19 @@ const Footer = () => {
         </div>
 
         <div className="footer-section">
-          <h3>Quick Links</h3>
+          <h3>{t('footer.quickLinks')}</h3>
           <div className="footer-links">
-            <Link to="/news" onClick={scrollToTop}>News & Events</Link>
-            <Link to="/gallery" onClick={scrollToTop}>Photo Gallery</Link>
-            <Link to="/social-work" onClick={scrollToTop}>Social Work</Link>
-            <Link to="/members" onClick={scrollToTop}>Members</Link>
-            <Link to="/about" onClick={scrollToTop}>About Us</Link>
-            <Link to="/update-info" onClick={scrollToTop}>Update Info</Link>
+            <Link to="/news" onClick={scrollToTop}>{t('footer.newsEvents')}</Link>
+            <Link to="/gallery" onClick={scrollToTop}>{t('footer.photoGallery')}</Link>
+            <Link to="/social-work" onClick={scrollToTop}>{t('navbar.socialWork')}</Link>
+            <Link to="/members" onClick={scrollToTop}>{t('navbar.members')}</Link>
+            <Link to="/about" onClick={scrollToTop}>{t('navbar.aboutUs')}</Link>
+            <Link to="/update-info" onClick={scrollToTop}>{t('navbar.updateInfo')}</Link>
           </div>
         </div>
 
         <div className="footer-section">
-          <h3>Contact Us</h3>
+          <h3>{t('footer.contactUs')}</h3>
           <div className="contact-info">
             <div className="contact-item">
               <span>📍</span>
@@ -67,8 +69,8 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>© {new Date().getFullYear()} Kerala Samajam Vasai East (Regd.). All Rights Reserved.</p>
-        <p>Made with ❤️ for the Kerala Community</p>
+        <p>© {new Date().getFullYear()} {t('footer.copyright')}</p>
+        <p>{t('footer.madeWith')}</p>
       </div>
     </footer>
   );
