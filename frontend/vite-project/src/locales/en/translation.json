@@ -41,7 +41,9 @@
         "officeBearersTitle": "Office Bearers 2025-2028",
         "teamDescription": "Our dedicated leadership team works tirelessly to preserve and promote Kerala's rich cultural heritage, organize community events, and foster unity among members. Together, they manage all aspects of Kerala Samajam Vasai East, ensuring a vibrant and inclusive community for all.",
         "loading": "Loading office bearers...",
-        "errorLoading": "Error loading office bearers:"
+        "errorLoading": "Error loading office bearers:",
+        "committeeMembersTitle": "Committee Members",
+        "committeeMembersDescription": "Our dedicated committee members who actively contribute to the success of Kerala Samajam Vasai East through their valuable support and participation."
     },
     "socialWork": {
         "title": "Social Work",
