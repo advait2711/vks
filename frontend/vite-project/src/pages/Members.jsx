@@ -99,15 +99,17 @@ const Members = () => {
         fetchOfficeBearers();
     }, []);
 
-    // Group office bearers by hierarchy for 2x2x2 layout
-    const presidentAndVP = officeBearers.filter(b =>
-        b.designation === 'President' || b.designation === 'Vice President'
-    );
+    // Group office bearers by hierarchy for 1-2-2-2 layout
+    const president = officeBearers.filter(b => b.designation === 'President');
+    const vicePresidents = officeBearers.filter(b => b.designation === 'Vice President');
     const secretaryAndTreasurer = officeBearers.filter(b =>
         b.designation === 'Secretary' || b.designation === 'Treasurer'
     );
     const jointSecretaries = officeBearers.filter(b =>
         b.designation === 'Joint Secretary'
+    );
+    const committeeMembers = officeBearers.filter(b =>
+        b.designation === 'Committee Member'
     );
 
     return (
@@ -131,9 +133,28 @@ const Members = () => {
                     </div>
                 ) : (
                     <div className="office-bearers-container">
-                        {/* President & Vice President - First Row */}
+                        {/* President - First Row (Centered) */}
+                        <div className="bearers-row president-row">
+                            {president.map((bearer) => (
+                                <div key={bearer.id} className="office-bearer-card president-card">
+                                    <div className="bearer-photo-wrapper">
+                                        <img
+                                            src={bearer.photo_url}
+                                            alt={bearer.name}
+                                            className="bearer-photo"
+                                        />
+                                    </div>
+                                    <div className="bearer-info">
+                                        <h3>{bearer.name}</h3>
+                                        <span className="bearer-designation">{bearer.designation}</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Vice Presidents - Second Row */}
                         <div className="bearers-row">
-                            {presidentAndVP.map((bearer) => (
+                            {vicePresidents.map((bearer) => (
                                 <div key={bearer.id} className="office-bearer-card">
                                     <div className="bearer-photo-wrapper">
                                         <img
@@ -150,7 +171,7 @@ const Members = () => {
                             ))}
                         </div>
 
-                        {/* Secretary & Treasurer - Second Row */}
+                        {/* Secretary & Treasurer - Third Row */}
                         <div className="bearers-row">
                             {secretaryAndTreasurer.map((bearer) => (
                                 <div key={bearer.id} className="office-bearer-card">
@@ -169,7 +190,7 @@ const Members = () => {
                             ))}
                         </div>
 
-                        {/* Joint Secretaries - Third Row */}
+                        {/* Joint Secretaries - Fourth Row */}
                         <div className="bearers-row">
                             {jointSecretaries.map((bearer) => (
                                 <div key={bearer.id} className="office-bearer-card">
@@ -190,6 +211,35 @@ const Members = () => {
                     </div>
                 )}
             </div>
+
+            {/* Committee Members Section */}
+            {!loading && !error && committeeMembers.length > 0 && (
+                <div className="committee-members-section">
+                    <div className="committee-members-header">
+                        <h2>{t('members.committeeMembersTitle')}</h2>
+                        <p className="committee-description">
+                            {t('members.committeeMembersDescription')}
+                        </p>
+                    </div>
+                    <div className="committee-members-grid">
+                        {committeeMembers.map((member) => (
+                            <div key={member.id} className="committee-member-card">
+                                <div className="member-photo-wrapper">
+                                    <img
+                                        src={member.photo_url}
+                                        alt={member.name}
+                                        className="member-photo"
+                                    />
+                                </div>
+                                <div className="member-info">
+                                    <h4>{member.name}</h4>
+                                    <span className="member-designation">{member.designation}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
