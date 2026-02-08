@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "../styles/updateinfo.css";
 
 const UpdateInfo = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -10,16 +9,13 @@ const UpdateInfo = () => {
     const [photoPreview, setPhotoPreview] = useState(null);
     const [uploadingPhoto, setUploadingPhoto] = useState(false);
 
-    // Login credentials
     const [credentials, setCredentials] = useState({
         sl_no: "",
         otp_password: ""
     });
 
-    // Member data
     const [memberData, setMemberData] = useState(null);
 
-    // Form data for updates
     const [formData, setFormData] = useState({
         address: "",
         family_members: "",
@@ -34,7 +30,6 @@ const UpdateInfo = () => {
 
     const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
-    // Handle login credential changes
     const handleCredentialChange = (e) => {
         setCredentials({
             ...credentials,
@@ -43,7 +38,6 @@ const UpdateInfo = () => {
         setError("");
     };
 
-    // Handle form data changes
     const handleFormChange = (e) => {
         setFormData({
             ...formData,
@@ -51,18 +45,15 @@ const UpdateInfo = () => {
         });
     };
 
-    // Handle photo file selection
     const handlePhotoChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            // Validate file type
             const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
             if (!allowedTypes.includes(file.type)) {
                 setError("Please select a valid image file (JPEG, PNG, or WebP)");
                 return;
             }
 
-            // Validate file size (5MB)
             if (file.size > 5 * 1024 * 1024) {
                 setError("File size must be less than 5MB");
                 return;
@@ -70,7 +61,6 @@ const UpdateInfo = () => {
 
             setPhotoFile(file);
 
-            // Create preview
             const reader = new FileReader();
             reader.onloadend = () => {
                 setPhotoPreview(reader.result);
@@ -80,7 +70,6 @@ const UpdateInfo = () => {
         }
     };
 
-    // Upload photo
     const handlePhotoUpload = async () => {
         if (!photoFile) return;
 
@@ -89,12 +78,12 @@ const UpdateInfo = () => {
         setSuccessMessage("");
 
         try {
-            const formData = new FormData();
-            formData.append("photo", photoFile);
+            const formDataObj = new FormData();
+            formDataObj.append("photo", photoFile);
 
             const response = await fetch(`${API_BASE_URL}/members/${memberData.sl_no}/photo`, {
                 method: "POST",
-                body: formData
+                body: formDataObj
             });
 
             const data = await response.json();
@@ -118,7 +107,6 @@ const UpdateInfo = () => {
         }
     };
 
-    // Delete photo
     const handlePhotoDelete = async () => {
         if (!memberData.profile_photo) return;
 
@@ -152,7 +140,6 @@ const UpdateInfo = () => {
         }
     };
 
-    // Handle login
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -173,7 +160,6 @@ const UpdateInfo = () => {
                 setIsAuthenticated(true);
                 setMemberData(data.data);
 
-                // Populate form with existing data
                 setFormData({
                     address: data.data.address || "",
                     family_members: data.data.family_members || "",
@@ -196,7 +182,6 @@ const UpdateInfo = () => {
         }
     };
 
-    // Handle update
     const handleUpdate = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -218,7 +203,6 @@ const UpdateInfo = () => {
                 setSuccessMessage("Information updated successfully!");
                 setMemberData(data.data);
 
-                // Update form with latest data
                 setFormData({
                     address: data.data.address || "",
                     family_members: data.data.family_members || "",
@@ -230,7 +214,6 @@ const UpdateInfo = () => {
                     current_status: data.data.current_status || ""
                 });
 
-                // Clear success message after 5 seconds
                 setTimeout(() => setSuccessMessage(""), 5000);
             } else {
                 setError(data.message || "Update failed");
@@ -243,7 +226,6 @@ const UpdateInfo = () => {
         }
     };
 
-    // Handle logout
     const handleLogout = () => {
         setIsAuthenticated(false);
         setMemberData(null);
@@ -265,21 +247,25 @@ const UpdateInfo = () => {
     // Login View
     if (!isAuthenticated) {
         return (
-            <div className="updateinfo-page">
-                <div className="updateinfo-header">
-                    <h1>Member Login</h1>
-                    <p>Enter your credentials to update your information</p>
+            <div className="min-h-screen py-8 px-[4%] md:px-[5%] bg-cream-white">
+                <div className="text-center mb-12 py-8">
+                    <h1 className="text-4xl md:text-5xl gradient-text mb-2 font-bold">Member Login</h1>
+                    <p className="text-text-dark/80 text-lg">Enter your credentials to update your information</p>
                 </div>
 
-                <div className="form-container">
-                    <form onSubmit={handleLogin} className="login-form">
-                        <div className="form-section">
-                            <h3>Authentication</h3>
+                <div className="max-w-[500px] mx-auto">
+                    <form onSubmit={handleLogin} className="bg-white rounded-2xl shadow-md-custom p-6 md:p-10">
+                        <div>
+                            <h3 className="text-xl text-gold-accent mb-6 pb-3 border-b-2 border-emerald-subtle font-semibold">Authentication</h3>
 
-                            {error && <div className="error-message">{error}</div>}
+                            {error && (
+                                <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-lg mb-6 text-sm">
+                                    {error}
+                                </div>
+                            )}
 
-                            <div className="form-group">
-                                <label htmlFor="sl_no">Serial Number *</label>
+                            <div className="mb-5">
+                                <label htmlFor="sl_no" className="block text-text-dark font-semibold mb-2 text-sm">Serial Number *</label>
                                 <input
                                     type="number"
                                     id="sl_no"
@@ -289,11 +275,12 @@ const UpdateInfo = () => {
                                     required
                                     placeholder="Enter your serial number"
                                     disabled={loading}
+                                    className="input-field"
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <label htmlFor="otp_password">OTP Password *</label>
+                            <div className="mb-5">
+                                <label htmlFor="otp_password" className="block text-text-dark font-semibold mb-2 text-sm">OTP Password *</label>
                                 <input
                                     type="password"
                                     id="otp_password"
@@ -303,13 +290,14 @@ const UpdateInfo = () => {
                                     required
                                     placeholder="Enter your OTP password"
                                     disabled={loading}
+                                    className="input-field"
                                 />
                             </div>
 
-                            <div className="form-actions">
+                            <div className="mt-8">
                                 <button
                                     type="submit"
-                                    className="submit-btn"
+                                    className="btn-primary w-full py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                                     disabled={loading}
                                 >
                                     {loading ? "Logging in..." : "Login"}
@@ -324,37 +312,37 @@ const UpdateInfo = () => {
 
     // Update View (after authentication)
     return (
-        <div className="updateinfo-page">
-            <div className="updateinfo-header">
-                <h1>Update Your Information</h1>
+        <div className="min-h-screen py-8 px-[4%] md:px-[5%] bg-cream-white">
+            <div className="text-center mb-8 py-4">
+                <h1 className="text-3xl md:text-4xl gradient-text mb-4 font-bold">Update Your Information</h1>
 
                 {/* Profile Photo Section */}
-                <div className="profile-photo-section">
-                    <div className="profile-photo-circle">
+                <div className="flex flex-col items-center gap-4 my-6">
+                    <div className="w-[140px] h-[140px] md:w-[180px] md:h-[180px] rounded-full border-4 border-gold-primary shadow-lg-custom overflow-hidden bg-cream-soft flex items-center justify-center">
                         {(photoPreview || memberData?.profile_photo) ? (
                             <img
                                 src={photoPreview || memberData.profile_photo}
                                 alt="Profile"
-                                className="profile-photo-img"
+                                className="w-full h-full object-cover"
                             />
                         ) : (
-                            <div className="profile-photo-placeholder">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div className="text-gray-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-16 h-16 md:w-20 md:h-20">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
                             </div>
                         )}
                     </div>
 
-                    <div className="photo-actions">
+                    <div className="flex flex-wrap justify-center gap-3">
                         <input
                             type="file"
                             id="photo-upload"
                             accept="image/jpeg,image/jpg,image/png,image/webp"
                             onChange={handlePhotoChange}
-                            style={{ display: 'none' }}
+                            className="hidden"
                         />
-                        <label htmlFor="photo-upload" className="photo-btn upload-btn">
+                        <label htmlFor="photo-upload" className="btn-secondary cursor-pointer text-sm py-2 px-4">
                             📷 Choose Photo
                         </label>
 
@@ -363,7 +351,7 @@ const UpdateInfo = () => {
                                 type="button"
                                 onClick={handlePhotoUpload}
                                 disabled={uploadingPhoto}
-                                className="photo-btn save-photo-btn"
+                                className="btn-primary text-sm py-2 px-4 disabled:opacity-50"
                             >
                                 {uploadingPhoto ? '⏳ Uploading...' : '✓ Upload Photo'}
                             </button>
@@ -374,7 +362,7 @@ const UpdateInfo = () => {
                                 type="button"
                                 onClick={handlePhotoDelete}
                                 disabled={uploadingPhoto}
-                                className="photo-btn delete-photo-btn"
+                                className="bg-red-500 text-white text-sm py-2 px-4 rounded-lg hover:bg-red-600 transition-all disabled:opacity-50"
                             >
                                 {uploadingPhoto ? '⏳ Deleting...' : '🗑️ Remove Photo'}
                             </button>
@@ -382,50 +370,58 @@ const UpdateInfo = () => {
                     </div>
                 </div>
 
-                <p>Welcome, {memberData?.name}</p>
-                <button onClick={handleLogout} className="logout-btn">
+                <p className="text-text-dark text-lg">Welcome, <span className="font-semibold text-gold-accent">{memberData?.name}</span></p>
+                <button onClick={handleLogout} className="mt-4 text-red-500 font-semibold hover:text-red-600 transition-all text-sm">
                     Logout
                 </button>
             </div>
 
-            <div className="form-container">
-                <form onSubmit={handleUpdate} className="update-form">
+            <div className="max-w-[800px] mx-auto">
+                <form onSubmit={handleUpdate} className="bg-white rounded-2xl shadow-md-custom p-6 md:p-10">
                     {/* Read-only Information */}
-                    <div className="form-section readonly-section">
-                        <h3>Member Information (Read-Only)</h3>
+                    <div className="mb-8 pb-6 border-b border-gray-200">
+                        <h3 className="text-xl text-gold-accent mb-6 font-semibold">Member Information (Read-Only)</h3>
 
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label>Serial Number</label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-text-dark font-semibold mb-2 text-sm">Serial Number</label>
                                 <input
                                     type="text"
                                     value={memberData?.sl_no || ""}
                                     disabled
-                                    className="readonly-input"
+                                    className="w-full px-4 py-3 bg-gray-100 text-gray-500 rounded-lg border border-gray-200"
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <label>Name</label>
+                            <div>
+                                <label className="block text-text-dark font-semibold mb-2 text-sm">Name</label>
                                 <input
                                     type="text"
                                     value={memberData?.name || ""}
                                     disabled
-                                    className="readonly-input"
+                                    className="w-full px-4 py-3 bg-gray-100 text-gray-500 rounded-lg border border-gray-200"
                                 />
                             </div>
                         </div>
                     </div>
 
                     {/* Editable Information */}
-                    <div className="form-section">
-                        <h3>Personal Details</h3>
+                    <div>
+                        <h3 className="text-xl text-gold-accent mb-6 font-semibold">Personal Details</h3>
 
-                        {error && <div className="error-message">{error}</div>}
-                        {successMessage && <div className="success-message">{successMessage}</div>}
+                        {error && (
+                            <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-lg mb-6 text-sm">
+                                {error}
+                            </div>
+                        )}
+                        {successMessage && (
+                            <div className="bg-green-50 border-l-4 border-green-500 text-green-700 p-4 rounded-lg mb-6 text-sm">
+                                {successMessage}
+                            </div>
+                        )}
 
-                        <div className="form-group">
-                            <label htmlFor="address">Address</label>
+                        <div className="mb-5">
+                            <label htmlFor="address" className="block text-text-dark font-semibold mb-2 text-sm">Address</label>
                             <textarea
                                 id="address"
                                 name="address"
@@ -434,12 +430,13 @@ const UpdateInfo = () => {
                                 rows="3"
                                 placeholder="Enter your address"
                                 disabled={loading}
+                                className="input-field resize-none"
                             ></textarea>
                         </div>
 
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="mobile_no">Mobile Number</label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+                            <div>
+                                <label htmlFor="mobile_no" className="block text-text-dark font-semibold mb-2 text-sm">Mobile Number</label>
                                 <input
                                     type="tel"
                                     id="mobile_no"
@@ -448,11 +445,12 @@ const UpdateInfo = () => {
                                     onChange={handleFormChange}
                                     placeholder="+91 9876543210"
                                     disabled={loading}
+                                    className="input-field"
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <label htmlFor="email">Email Address</label>
+                            <div>
+                                <label htmlFor="email" className="block text-text-dark font-semibold mb-2 text-sm">Email Address</label>
                                 <input
                                     type="email"
                                     id="email"
@@ -461,13 +459,14 @@ const UpdateInfo = () => {
                                     onChange={handleFormChange}
                                     placeholder="your.email@example.com"
                                     disabled={loading}
+                                    className="input-field"
                                 />
                             </div>
                         </div>
 
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="occupation">Occupation</label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+                            <div>
+                                <label htmlFor="occupation" className="block text-text-dark font-semibold mb-2 text-sm">Occupation</label>
                                 <input
                                     type="text"
                                     id="occupation"
@@ -476,17 +475,19 @@ const UpdateInfo = () => {
                                     onChange={handleFormChange}
                                     placeholder="Your occupation"
                                     disabled={loading}
+                                    className="input-field"
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <label htmlFor="blood_group">Blood Group</label>
+                            <div>
+                                <label htmlFor="blood_group" className="block text-text-dark font-semibold mb-2 text-sm">Blood Group</label>
                                 <select
                                     id="blood_group"
                                     name="blood_group"
                                     value={formData.blood_group}
                                     onChange={handleFormChange}
                                     disabled={loading}
+                                    className="input-field"
                                 >
                                     <option value="">Select Blood Group</option>
                                     <option value="A+">A+</option>
@@ -501,9 +502,9 @@ const UpdateInfo = () => {
                             </div>
                         </div>
 
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="native_place">Native Place</label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+                            <div>
+                                <label htmlFor="native_place" className="block text-text-dark font-semibold mb-2 text-sm">Native Place</label>
                                 <input
                                     type="text"
                                     id="native_place"
@@ -512,11 +513,12 @@ const UpdateInfo = () => {
                                     onChange={handleFormChange}
                                     placeholder="Your native place"
                                     disabled={loading}
+                                    className="input-field"
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <label htmlFor="current_status">Current Status</label>
+                            <div>
+                                <label htmlFor="current_status" className="block text-text-dark font-semibold mb-2 text-sm">Current Status</label>
                                 <input
                                     type="text"
                                     id="current_status"
@@ -525,12 +527,13 @@ const UpdateInfo = () => {
                                     onChange={handleFormChange}
                                     placeholder="e.g., ACTIVE, LEFT, etc."
                                     disabled={loading}
+                                    className="input-field"
                                 />
                             </div>
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="family_members">Family Members</label>
+                        <div className="mb-5">
+                            <label htmlFor="family_members" className="block text-text-dark font-semibold mb-2 text-sm">Family Members</label>
                             <textarea
                                 id="family_members"
                                 name="family_members"
@@ -539,14 +542,15 @@ const UpdateInfo = () => {
                                 rows="3"
                                 placeholder="Enter family member details"
                                 disabled={loading}
+                                className="input-field resize-none"
                             ></textarea>
                         </div>
                     </div>
 
-                    <div className="form-actions">
+                    <div className="flex flex-col sm:flex-row gap-4 mt-8 pt-6 border-t border-gray-200">
                         <button
                             type="submit"
-                            className="submit-btn"
+                            className="btn-primary flex-1 py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                             disabled={loading}
                         >
                             {loading ? "Updating..." : "Update Information"}
@@ -554,7 +558,6 @@ const UpdateInfo = () => {
                         <button
                             type="button"
                             onClick={() => {
-                                // Reset to original member data
                                 setFormData({
                                     address: memberData.address || "",
                                     family_members: memberData.family_members || "",
@@ -568,7 +571,7 @@ const UpdateInfo = () => {
                                 setError("");
                                 setSuccessMessage("");
                             }}
-                            className="reset-btn"
+                            className="btn-secondary flex-1 py-4 text-lg disabled:opacity-50"
                             disabled={loading}
                         >
                             Reset Form
