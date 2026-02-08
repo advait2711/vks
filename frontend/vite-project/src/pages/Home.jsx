@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import "../styles/home.css";
 
-const images = [
-  "https://images.unsplash.com/photo-1593693397690-362cb9666fc2", // Kerala backwaters
-  "https://plus.unsplash.com/premium_photo-1697730304904-2bdf66da8f2b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Houseboat
-  "https://images.unsplash.com/photo-1668070924650-d73bcafb539c?q=80&w=1051&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Kathakali
-  "https://unsplash.com/photos/a-couple-of-elephants-standing-next-to-each-other-0tuzOfs-T3s", // Kerala village
-  "https://images.unsplash.com/photo-1679303439170-b71f9bba3b71?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"  // Coconut trees
-];
+import hero1 from '../assets/hero/hero1.jpg';
+import hero2 from '../assets/hero/hero2.jpg';
+import hero3 from '../assets/hero/hero3.jpg';
+import hero5 from '../assets/hero/hero5.jpg';
+
+const images = [hero1, hero2, hero3, hero5];
 
 const Home = () => {
   const [current, setCurrent] = useState(0);
@@ -17,25 +15,27 @@ const Home = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
-    }, 4000); // 🔥 slower (4 sec)
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <main className="home">
-      <section className="hero">
+    <main className="w-full">
+      <section className="relative w-full h-[70vh] md:h-[90vh] overflow-hidden bg-gray-900">
         {images.map((img, index) => (
           <div
             key={index}
-            className={`slide ${index === current ? "active" : ""}`}
+            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-[1500ms] ease-in-out brightness-95 ${index === current ? "opacity-100" : "opacity-0"}`}
             style={{ backgroundImage: `url(${img})` }}
           />
         ))}
 
-        <div className="hero-content">
-          <h1>{t('home.welcome')}</h1>
-          <p>
+        <div className="relative z-10 h-full bg-gradient-to-br from-cream-white/25 via-gold-primary/35 via-30% to-emerald-primary/45 to-70% text-white flex flex-col items-center justify-center text-center px-6">
+          <h1 className="text-4xl md:text-6xl mb-5 font-bold text-shadow-dark gradient-text-hero animate-fade-in-up">
+            {t('home.welcome')}
+          </h1>
+          <p className="max-w-3xl text-lg md:text-xl leading-relaxed text-white text-shadow-light font-medium animate-fade-in-up" style={{ animationDelay: '0.2s', animationFillMode: 'backwards' }}>
             {t('home.tagline')}
           </p>
         </div>
