@@ -1,11 +1,9 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { authAPI } from '../utils/api';
-import '../styles/adminlayout.css';
 
 const AdminLayout = () => {
-    // Start open on desktop (>1024px), closed on mobile
-    const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 1024);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
     const adminUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
 
@@ -21,76 +19,135 @@ const AdminLayout = () => {
         }
     };
 
-    const toggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
     };
 
-    const closeSidebar = () => {
-        // Only close sidebar on mobile
-        if (window.innerWidth <= 1024) {
-            setIsSidebarOpen(false);
-        }
+    const closeMenu = () => {
+        setIsMenuOpen(false);
     };
 
     return (
-        <div className="admin-layout">
-            {/* Mobile Header with Hamburger */}
-            <div className="admin-mobile-header">
-                <button className="hamburger-btn" onClick={toggleSidebar}>
-                    ☰
-                </button>
-                <h2>VKS Admin</h2>
-            </div>
+        <div className="min-h-screen bg-gradient-to-br from-cream-white via-cream-soft to-emerald-primary/10 flex flex-col">
+            {/* Navbar */}
+            <header className="bg-gradient-to-r from-emerald-primary to-emerald-dark shadow-md-custom sticky top-0 z-[100] border-b border-white/10">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between h-20">
+                        {/* Logo and Brand */}
+                        <div className="flex items-center">
+                            <h1 className="text-2xl font-bold font-poppins text-white tracking-tight">VKS Admin</h1>
+                        </div>
 
-            {/* Sidebar */}
-            <aside className={`admin-sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
-                <div className="admin-sidebar-header">
-                    <h2>VKS Admin</h2>
-                    <button className="sidebar-toggle" onClick={toggleSidebar}>
-                        {isSidebarOpen ? '✕' : '☰'}
-                    </button>
-                </div>
+                        {/* Desktop Navigation */}
+                        <div className="hidden md:flex items-center space-x-4">
+                            <NavLink
+                                to="/secured-admin2711/dashboard"
+                                className={({ isActive }) => `px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive ? 'bg-white/20 text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                            >
+                                Dashboard
+                            </NavLink>
+                            <NavLink
+                                to="/secured-admin2711/users"
+                                className={({ isActive }) => `px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive ? 'bg-white/20 text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                            >
+                                User Management
+                            </NavLink>
+                            <NavLink
+                                to="/secured-admin2711/news"
+                                className={({ isActive }) => `px-4 py-2 rounded-lg text-sm font-medium transition-all ${isActive ? 'bg-white/20 text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                            >
+                                News Management
+                            </NavLink>
+                        </div>
 
-                <nav className="admin-nav">
-                    <NavLink to="/secured-admin2711/dashboard" className="admin-nav-link" onClick={closeSidebar}>
-                        <span className="nav-icon">📊</span>
-                        <span className="nav-text">Dashboard</span>
-                    </NavLink>
-                    <NavLink to="/secured-admin2711/users" className="admin-nav-link" onClick={closeSidebar}>
-                        <span className="nav-icon">👥</span>
-                        <span className="nav-text">User Management</span>
-                    </NavLink>
-                    <NavLink to="/secured-admin2711/news" className="admin-nav-link" onClick={closeSidebar}>
-                        <span className="nav-icon">📰</span>
-                        <span className="nav-text">News Management</span>
-                    </NavLink>
-                </nav>
+                        {/* Desktop Profile & Logout */}
+                        <div className="hidden md:flex items-center gap-4">
+                            <div className="flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-full border border-white/20">
+                                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-emerald-primary text-xs shadow-sm">
+                                    👤
+                                </div>
+                                <span className="text-sm font-semibold text-white">{adminUser.username}</span>
+                            </div>
+                            <button
+                                onClick={handleLogout}
+                                className="text-white/90 hover:text-white font-medium text-sm transition-colors border border-white/20 hover:border-white/40 hover:bg-white/10 px-3 py-1.5 rounded-lg"
+                                title="Logout"
+                            >
+                                Logout 🚪
+                            </button>
+                        </div>
 
-                <div className="admin-sidebar-footer">
-                    <div className="admin-user-info">
-                        <div className="admin-avatar">👤</div>
-                        <div className="admin-user-details">
-                            <p className="admin-username">{adminUser.username}</p>
-                            <p className="admin-role">{adminUser.role}</p>
+                        {/* Mobile Menu Button */}
+                        <div className="flex items-center md:hidden">
+                            <button
+                                onClick={toggleMenu}
+                                className="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white/10 focus:outline-none transition-colors"
+                            >
+                                <span className="sr-only">Open main menu</span>
+                                <span className="text-2xl">{isMenuOpen ? '✕' : '☰'}</span>
+                            </button>
                         </div>
                     </div>
-                    <button onClick={handleLogout} className="admin-logout-btn">
-                        <span>🚪</span> Logout
-                    </button>
                 </div>
-            </aside>
+
+                {/* Mobile Menu Dropdown */}
+                {isMenuOpen && (
+                    <div className="md:hidden bg-white border-t border-gray-100 animate-slide-down shadow-lg-custom">
+                        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                            <NavLink
+                                to="/secured-admin2711/dashboard"
+                                onClick={closeMenu}
+                                className={({ isActive }) => `block px-3 py-3 rounded-lg text-base font-medium ${isActive ? 'bg-emerald-primary/10 text-emerald-primary' : 'text-text-dark/70 hover:bg-gray-50 hover:text-text-dark'}`}
+                            >
+                                Dashboard
+                            </NavLink>
+                            <NavLink
+                                to="/secured-admin2711/users"
+                                onClick={closeMenu}
+                                className={({ isActive }) => `block px-3 py-3 rounded-lg text-base font-medium ${isActive ? 'bg-emerald-primary/10 text-emerald-primary' : 'text-text-dark/70 hover:bg-gray-50 hover:text-text-dark'}`}
+                            >
+                                User Management
+                            </NavLink>
+                            <NavLink
+                                to="/secured-admin2711/news"
+                                onClick={closeMenu}
+                                className={({ isActive }) => `block px-3 py-3 rounded-lg text-base font-medium ${isActive ? 'bg-emerald-primary/10 text-emerald-primary' : 'text-text-dark/70 hover:bg-gray-50 hover:text-text-dark'}`}
+                            >
+                                News Management
+                            </NavLink>
+                        </div>
+                        <div className="pt-4 pb-4 border-t border-gray-100">
+                            <div className="flex items-center px-5 mb-3">
+                                <div className="flex-shrink-0">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold-primary to-emerald-primary flex items-center justify-center text-white text-lg shadow-sm">
+                                        👤
+                                    </div>
+                                </div>
+                                <div className="ml-3">
+                                    <div className="text-base font-medium leading-none text-text-dark">{adminUser.username}</div>
+                                    <div className="text-sm font-medium leading-none text-text-dark/50 mt-1">{adminUser.role || 'Admin'}</div>
+                                </div>
+                            </div>
+                            <div className="px-2 space-y-1">
+                                <button
+                                    onClick={() => {
+                                        handleLogout();
+                                        closeMenu();
+                                    }}
+                                    className="block w-full text-left px-3 py-3 rounded-md text-base font-medium text-red-500 hover:bg-red-50 hover:text-red-700 transition-colors"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </header>
 
             {/* Main Content */}
-            <main className={`admin-main ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-                <div className="admin-content">
-                    <Outlet />
-                </div>
+            <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
+                <Outlet />
             </main>
-
-            {/* Mobile Overlay */}
-            {isSidebarOpen && window.innerWidth <= 1024 && (
-                <div className="sidebar-overlay" onClick={closeSidebar}></div>
-            )}
         </div>
     );
 };
