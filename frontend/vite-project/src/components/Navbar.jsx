@@ -26,7 +26,7 @@ const Navbar = () => {
           alt="Kerala Samajam Vasai East Logo"
           className="h-12 md:h-14 w-auto object-contain"
         />
-        <span className="text-xl md:text-2xl font-bold font-poppins tracking-wide bg-gradient-to-br from-gold-accent to-emerald-primary bg-clip-text text-transparent drop-shadow-sm hidden sm:inline">
+        <span className="text-sm md:text-2xl font-bold font-poppins tracking-wide bg-gradient-to-br from-gold-accent to-emerald-primary bg-clip-text text-transparent drop-shadow-sm">
           {t('navbar.logo')}
         </span>
       </Link>
