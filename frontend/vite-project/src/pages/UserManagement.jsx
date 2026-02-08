@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { adminUserAPI } from '../utils/api';
-import '../styles/usermanagement.css';
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
@@ -62,14 +62,13 @@ const UserManagement = () => {
 
         try {
             if (editingUser) {
-                // Update existing user
                 const updateFormData = new FormData();
                 Object.keys(formData).forEach(key => {
                     if (key === 'profile_photo' && formData[key] instanceof File) {
                         updateFormData.append(key, formData[key]);
                     } else if (key === 'otp_password' && !formData[key]) {
                         // Skip empty password
-                    } else if (key !== 'sl_no') { // Don't update SL number
+                    } else if (key !== 'sl_no') {
                         updateFormData.append(key, formData[key]);
                     }
                 });
@@ -77,7 +76,6 @@ const UserManagement = () => {
                 await adminUserAPI.update(editingUser.sl_no, updateFormData);
                 setSuccess('User updated successfully!');
             } else {
-                // Create new user - check for duplicate SL number
                 const existingUser = users.find(u => u.sl_no === parseInt(formData.sl_no));
                 if (existingUser) {
                     setError(`SL Number ${formData.sl_no} already exists!`);
@@ -92,7 +90,6 @@ const UserManagement = () => {
                 const createFormData = new FormData();
                 Object.keys(formData).forEach(key => {
                     if (key === 'profile_photo' && formData[key] instanceof File) {
-                        // Explicitly handle file upload
                         createFormData.append(key, formData[key]);
                         console.log('Adding photo file:', formData[key].name);
                     } else if (formData[key] !== null && formData[key] !== '' && key !== 'profile_photo') {
@@ -129,7 +126,7 @@ const UserManagement = () => {
             native_place: user.native_place || '',
             email: user.email || '',
             current_status: user.current_status || 'Active',
-            profile_photo: null, // Don't pre-fill file input
+            profile_photo: null,
             otp_password: ''
         });
         setShowModal(true);
@@ -180,125 +177,201 @@ const UserManagement = () => {
         user.mobile_no?.includes(searchTerm)
     );
 
+    const getStatusBadgeClasses = (status) => {
+        const baseClasses = "px-3 py-1 rounded-full text-xs font-semibold";
+        switch (status?.toLowerCase()) {
+            case 'active':
+                return `${baseClasses} bg-green-100 text-green-700`;
+            case 'inactive':
+                return `${baseClasses} bg-yellow-100 text-yellow-700`;
+            case 'left':
+                return `${baseClasses} bg-red-100 text-red-700`;
+            default:
+                return `${baseClasses} bg-gray-100 text-gray-700`;
+        }
+    };
+
     return (
-        <div className="user-management">
-            <div className="page-header">
+        <div className="p-4 md:p-6 lg:p-8 animate-fade-in">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
-                    <h1>User Management</h1>
-                    <p>Manage member accounts and information</p>
+                    <h1 className="text-2xl md:text-3xl text-text-dark font-bold mb-1">User Management</h1>
+                    <p className="text-text-dark/70">Manage member accounts and information</p>
                 </div>
-                <button onClick={openCreateModal} className="btn-primary">
+                <button onClick={openCreateModal} className="btn-primary whitespace-nowrap">
                     ➕ Add New Member
                 </button>
             </div>
 
             {success && (
-                <div className="alert alert-success">
+                <div className="flex items-center justify-between bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-4">
                     {success}
-                    <button onClick={() => setSuccess('')}>✕</button>
+                    <button onClick={() => setSuccess('')} className="text-green-500 hover:text-green-700 text-xl">✕</button>
                 </div>
             )}
 
             {error && !showModal && (
-                <div className="alert alert-error">
+                <div className="flex items-center justify-between bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
                     {error}
-                    <button onClick={() => setError('')}>✕</button>
+                    <button onClick={() => setError('')} className="text-red-500 hover:text-red-700 text-xl">✕</button>
                 </div>
             )}
 
-            <div className="search-bar">
+            <div className="mb-6">
                 <input
                     type="text"
                     placeholder="Search by name, email, or mobile..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full max-w-md px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-primary/30 focus:border-emerald-primary transition-all"
                 />
             </div>
 
             {isLoading ? (
-                <div className="loading">Loading users...</div>
+                <div className="text-center py-12 text-emerald-primary text-lg">Loading users...</div>
             ) : (
-                <div className="table-container">
-                    <table className="users-table">
-                        <thead>
-                            <tr>
-                                <th>SL No</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Mobile</th>
-                                <th>Occupation</th>
-                                <th>OTP Password</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredUsers.length === 0 ? (
-                                <tr>
-                                    <td colSpan="8" className="no-data">No users found</td>
+                <div className="bg-white rounded-xl shadow-sm-custom overflow-hidden">
+                    {/* Desktop Table View */}
+                    <div className="hidden md:block overflow-x-auto">
+                        <table className="w-full">
+                            <thead>
+                                <tr className="bg-gray-50 text-left">
+                                    <th className="px-4 py-4 text-sm font-semibold text-text-dark/80">SL No</th>
+                                    <th className="px-4 py-4 text-sm font-semibold text-text-dark/80">Name</th>
+                                    <th className="px-4 py-4 text-sm font-semibold text-text-dark/80 hidden lg:table-cell">Email</th>
+                                    <th className="px-4 py-4 text-sm font-semibold text-text-dark/80 hidden lg:table-cell">Mobile</th>
+                                    <th className="px-4 py-4 text-sm font-semibold text-text-dark/80 hidden xl:table-cell">Occupation</th>
+                                    <th className="px-4 py-4 text-sm font-semibold text-text-dark/80 hidden lg:table-cell">OTP Password</th>
+                                    <th className="px-4 py-4 text-sm font-semibold text-text-dark/80">Status</th>
+                                    <th className="px-4 py-4 text-sm font-semibold text-text-dark/80">Actions</th>
                                 </tr>
-                            ) : (
-                                filteredUsers.map(user => (
-                                    <tr key={user.sl_no}>
-                                        <td>{user.sl_no}</td>
-                                        <td>{user.name}</td>
-                                        <td>{user.email || '-'}</td>
-                                        <td>{user.mobile_no || '-'}</td>
-                                        <td>{user.occupation || '-'}</td>
-                                        <td>
-                                            <code style={{ background: '#f3f4f6', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.9rem' }}>
+                            </thead>
+                            <tbody className="divide-y divide-gray-100">
+                                {filteredUsers.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="8" className="text-center py-12 text-text-dark/60">No users found</td>
+                                    </tr>
+                                ) : (
+                                    filteredUsers.map(user => (
+                                        <tr key={user.sl_no} className="hover:bg-gray-50 transition-colors">
+                                            <td className="px-4 py-4 text-sm font-medium text-text-dark">{user.sl_no}</td>
+                                            <td className="px-4 py-4 text-sm text-text-dark">{user.name}</td>
+                                            <td className="px-4 py-4 text-sm text-text-dark/70 hidden lg:table-cell">{user.email || '-'}</td>
+                                            <td className="px-4 py-4 text-sm text-text-dark/70 hidden lg:table-cell">{user.mobile_no || '-'}</td>
+                                            <td className="px-4 py-4 text-sm text-text-dark/70 hidden xl:table-cell">{user.occupation || '-'}</td>
+                                            <td className="px-4 py-4 hidden lg:table-cell">
+                                                <code className="bg-gray-100 px-2 py-1 rounded text-sm">
+                                                    {user.otp_plain || '****'}
+                                                </code>
+                                            </td>
+                                            <td className="px-4 py-4">
+                                                <span className={getStatusBadgeClasses(user.current_status)}>
+                                                    {user.current_status || 'Active'}
+                                                </span>
+                                            </td>
+                                            <td className="px-4 py-4">
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        onClick={() => handleEdit(user)}
+                                                        className="w-9 h-9 flex items-center justify-center bg-emerald-primary/10 text-emerald-primary rounded-lg hover:bg-emerald-primary hover:text-white transition-all"
+                                                        title="Edit"
+                                                    >
+                                                        ✏️
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(user.sl_no, user.name)}
+                                                        className="w-9 h-9 flex items-center justify-center bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all"
+                                                        title="Delete"
+                                                    >
+                                                        🗑️
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Mobile Card View */}
+                    <div className="md:hidden bg-gray-50/50 p-4 space-y-4">
+                        {filteredUsers.length === 0 ? (
+                            <div className="text-center py-12 text-text-dark/60">No users found</div>
+                        ) : (
+                            filteredUsers.map(user => (
+                                <div key={user.sl_no} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:border-emerald-primary/30 transition-all">
+                                    <div className="flex justify-between items-start mb-3">
+                                        <div>
+                                            <div className="text-xs font-semibold text-emerald-primary mb-1">#{user.sl_no}</div>
+                                            <h3 className="font-bold text-text-dark text-lg">{user.name}</h3>
+                                            <p className="text-sm text-text-dark/60">{user.occupation || 'Member'}</p>
+                                        </div>
+                                        <span className={getStatusBadgeClasses(user.current_status)}>
+                                            {user.current_status || 'Active'}
+                                        </span>
+                                    </div>
+
+                                    <div className="space-y-2 mb-4">
+                                        {user.mobile_no && (
+                                            <div className="flex items-center text-sm text-text-dark/80">
+                                                <span className="w-5">📱</span> {user.mobile_no}
+                                            </div>
+                                        )}
+                                        {user.email && (
+                                            <div className="flex items-center text-sm text-text-dark/80">
+                                                <span className="w-5">📧</span> <span className="truncate">{user.email}</span>
+                                            </div>
+                                        )}
+                                        <div className="flex items-center text-sm text-text-dark/80">
+                                            <span className="w-5">🔑</span>
+                                            <code className="bg-gray-100 px-2 py-0.5 rounded text-xs ml-1">
                                                 {user.otp_plain || '****'}
                                             </code>
-                                        </td>
-                                        <td>
-                                            <span className={`status-badge ${user.current_status?.toLowerCase()}`}>
-                                                {user.current_status || 'Active'}
-                                            </span>
-                                        </td>
-                                        <td className="actions">
-                                            <button
-                                                onClick={() => handleEdit(user)}
-                                                className="btn-edit"
-                                                title="Edit"
-                                            >
-                                                ✏️
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(user.sl_no, user.name)}
-                                                className="btn-delete"
-                                                title="Delete"
-                                            >
-                                                🗑️
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-2 pt-3 border-t border-gray-100">
+                                        <button
+                                            onClick={() => handleEdit(user)}
+                                            className="flex-1 flex items-center justify-center gap-2 py-2 bg-emerald-primary/10 text-emerald-primary rounded-lg hover:bg-emerald-primary hover:text-white transition-all font-medium text-sm"
+                                        >
+                                            ✏️ Edit
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(user.sl_no, user.name)}
+                                            className="flex-1 flex items-center justify-center gap-2 py-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all font-medium text-sm"
+                                        >
+                                            🗑️ Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
                 </div>
             )}
 
             {/* Modal */}
-            {showModal && (
-                <div className="modal-overlay" onClick={closeModal}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h2>{editingUser ? 'Edit Member' : 'Add New Member'}</h2>
-                            <button onClick={closeModal} className="modal-close">✕</button>
+            {showModal && createPortal(
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-[9999]" onClick={closeModal}>
+                    <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl animate-fade-in-up" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between p-5 border-b border-gray-200">
+                            <h2 className="text-xl font-bold text-text-dark">{editingUser ? 'Edit Member' : 'Add New Member'}</h2>
+                            <button onClick={closeModal} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-all">✕</button>
                         </div>
 
                         {error && (
-                            <div className="alert alert-error">
+                            <div className="mx-5 mt-5 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
                                 {error}
                             </div>
                         )}
 
-                        <form onSubmit={handleSubmit} className="user-form">
-                            <div className="form-row">
+                        <form onSubmit={handleSubmit} className="p-5">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                 {!editingUser && (
-                                    <div className="form-group">
-                                        <label>SL Number *</label>
+                                    <div>
+                                        <label className="block text-text-dark font-semibold mb-2 text-sm">SL Number *</label>
                                         <input
                                             type="number"
                                             name="sl_no"
@@ -306,50 +379,55 @@ const UserManagement = () => {
                                             onChange={handleInputChange}
                                             required
                                             placeholder="Enter unique serial number"
+                                            className="input-field"
                                         />
                                     </div>
                                 )}
-                                <div className="form-group">
-                                    <label>Name *</label>
+                                <div className={!editingUser ? '' : 'md:col-span-2'}>
+                                    <label className="block text-text-dark font-semibold mb-2 text-sm">Name *</label>
                                     <input
                                         type="text"
                                         name="name"
                                         value={formData.name}
                                         onChange={handleInputChange}
                                         required
+                                        className="input-field"
                                     />
                                 </div>
                             </div>
 
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label>Email</label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label className="block text-text-dark font-semibold mb-2 text-sm">Email</label>
                                     <input
                                         type="email"
                                         name="email"
                                         value={formData.email}
                                         onChange={handleInputChange}
+                                        className="input-field"
                                     />
                                 </div>
 
-                                <div className="form-group">
-                                    <label>Mobile Number</label>
+                                <div>
+                                    <label className="block text-text-dark font-semibold mb-2 text-sm">Mobile Number</label>
                                     <input
                                         type="tel"
                                         name="mobile_no"
                                         value={formData.mobile_no}
                                         onChange={handleInputChange}
+                                        className="input-field"
                                     />
                                 </div>
                             </div>
 
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label>Blood Group</label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label className="block text-text-dark font-semibold mb-2 text-sm">Blood Group</label>
                                     <select
                                         name="blood_group"
                                         value={formData.blood_group}
                                         onChange={handleInputChange}
+                                        className="input-field"
                                     >
                                         <option value="">Select</option>
                                         <option value="A+">A+</option>
@@ -363,56 +441,61 @@ const UserManagement = () => {
                                     </select>
                                 </div>
 
-                                <div className="form-group">
-                                    <label>Occupation</label>
+                                <div>
+                                    <label className="block text-text-dark font-semibold mb-2 text-sm">Occupation</label>
                                     <input
                                         type="text"
                                         name="occupation"
                                         value={formData.occupation}
                                         onChange={handleInputChange}
+                                        className="input-field"
                                     />
                                 </div>
                             </div>
 
-                            <div className="form-group">
-                                <label>Address</label>
+                            <div className="mb-4">
+                                <label className="block text-text-dark font-semibold mb-2 text-sm">Address</label>
                                 <textarea
                                     name="address"
                                     value={formData.address}
                                     onChange={handleInputChange}
                                     rows="2"
+                                    className="input-field resize-none"
                                 />
                             </div>
 
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label>Native Place</label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label className="block text-text-dark font-semibold mb-2 text-sm">Native Place</label>
                                     <input
                                         type="text"
                                         name="native_place"
                                         value={formData.native_place}
                                         onChange={handleInputChange}
+                                        className="input-field"
                                     />
                                 </div>
 
-                                <div className="form-group">
-                                    <label>Family Members</label>
+                                <div>
+                                    <label className="block text-text-dark font-semibold mb-2 text-sm">Family Members</label>
                                     <input
                                         type="text"
                                         name="family_members"
                                         value={formData.family_members}
                                         onChange={handleInputChange}
+                                        className="input-field"
                                     />
                                 </div>
                             </div>
 
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label>Status</label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label className="block text-text-dark font-semibold mb-2 text-sm">Status</label>
                                     <select
                                         name="current_status"
                                         value={formData.current_status}
                                         onChange={handleInputChange}
+                                        className="input-field"
                                     >
                                         <option value="Active">Active</option>
                                         <option value="Inactive">Inactive</option>
@@ -420,25 +503,26 @@ const UserManagement = () => {
                                     </select>
                                 </div>
 
-                                <div className="form-group">
-                                    <label>Profile Photo</label>
+                                <div>
+                                    <label className="block text-text-dark font-semibold mb-2 text-sm">Profile Photo</label>
                                     <input
                                         type="file"
                                         name="profile_photo"
                                         onChange={handleInputChange}
                                         accept="image/*"
+                                        className="input-field text-sm"
                                     />
                                     {editingUser && editingUser.profile_photo && (
-                                        <small style={{ display: 'block', marginTop: '0.5rem', color: '#6b7280' }}>
+                                        <small className="block mt-2 text-text-dark/60">
                                             Current photo exists. Upload new to replace.
                                         </small>
                                     )}
                                 </div>
                             </div>
 
-                            <div className="form-group">
-                                <label>OTP Password {!editingUser && '*'}</label>
-                                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                            <div className="mb-6">
+                                <label className="block text-text-dark font-semibold mb-2 text-sm">OTP Password {!editingUser && '*'}</label>
+                                <div className="flex gap-3">
                                     <input
                                         type="text"
                                         name="otp_password"
@@ -447,37 +531,37 @@ const UserManagement = () => {
                                         placeholder={editingUser ? 'Leave blank to keep current password' : 'Enter 4-digit OTP'}
                                         required={!editingUser}
                                         maxLength="4"
-                                        style={{ flex: 1 }}
+                                        className="input-field flex-1"
                                     />
                                     {!editingUser && (
                                         <button
                                             type="button"
                                             onClick={generateOTP}
-                                            className="btn-secondary"
-                                            style={{ whiteSpace: 'nowrap' }}
+                                            className="btn-secondary whitespace-nowrap"
                                         >
                                             🎲 Generate OTP
                                         </button>
                                     )}
                                 </div>
                                 {formData.otp_password && (
-                                    <small style={{ display: 'block', marginTop: '0.5rem', color: '#059669' }}>
+                                    <small className="block mt-2 text-green-600">
                                         Generated OTP: <strong>{formData.otp_password}</strong>
                                     </small>
                                 )}
                             </div>
 
-                            <div className="form-actions">
-                                <button type="button" onClick={closeModal} className="btn-secondary">
+                            <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4 border-t border-gray-200">
+                                <button type="button" onClick={closeModal} className="btn-secondary flex-1">
                                     Cancel
                                 </button>
-                                <button type="submit" className="btn-primary">
+                                <button type="submit" className="btn-primary flex-1">
                                     {editingUser ? 'Update Member' : 'Create Member'}
                                 </button>
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );
