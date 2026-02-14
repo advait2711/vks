@@ -50,7 +50,7 @@ const Footer = () => {
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-3">
               <span className="text-xl text-emerald-primary">📍</span>
-              <p className="m-0 text-text-dark/80 text-[0.95rem]">{t('footer.address')}</p>
+              <p className="m-0 text-text-dark/80 text-[0.95rem]">{t('footer.officeAddress')}</p>
             </div>
             <div className="flex items-center gap-3">
               <span className="text-xl text-emerald-primary">📞</span>
