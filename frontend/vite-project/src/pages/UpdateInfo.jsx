@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const UpdateInfo = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -8,6 +9,7 @@ const UpdateInfo = () => {
     const [photoFile, setPhotoFile] = useState(null);
     const [photoPreview, setPhotoPreview] = useState(null);
     const [uploadingPhoto, setUploadingPhoto] = useState(false);
+    const { t } = useTranslation();
 
     const [credentials, setCredentials] = useState({
         sl_no: "",
@@ -50,12 +52,12 @@ const UpdateInfo = () => {
         if (file) {
             const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
             if (!allowedTypes.includes(file.type)) {
-                setError("Please select a valid image file (JPEG, PNG, or WebP)");
+                setError(t('updateInfo.validImageError'));
                 return;
             }
 
             if (file.size > 5 * 1024 * 1024) {
-                setError("File size must be less than 5MB");
+                setError(t('updateInfo.fileSizeError'));
                 return;
             }
 
@@ -89,7 +91,7 @@ const UpdateInfo = () => {
             const data = await response.json();
 
             if (data.success) {
-                setSuccessMessage("Photo uploaded successfully!");
+                setSuccessMessage(t('updateInfo.photoUploaded'));
                 setMemberData({ ...memberData, profile_photo: data.data.profile_photo });
                 setFormData({ ...formData, profile_photo: data.data.profile_photo });
                 setPhotoFile(null);
@@ -97,10 +99,10 @@ const UpdateInfo = () => {
 
                 setTimeout(() => setSuccessMessage(""), 3000);
             } else {
-                setError(data.message || "Failed to upload photo");
+                setError(data.message || t('updateInfo.uploadFailed'));
             }
         } catch (err) {
-            setError("Failed to upload photo. Please try again.");
+            setError(t('updateInfo.uploadFailed'));
             console.error("Photo upload error:", err);
         } finally {
             setUploadingPhoto(false);
@@ -110,7 +112,7 @@ const UpdateInfo = () => {
     const handlePhotoDelete = async () => {
         if (!memberData.profile_photo) return;
 
-        if (!confirm("Are you sure you want to delete your profile photo?")) return;
+        if (!confirm(t('updateInfo.deletePhotoConfirm'))) return;
 
         setUploadingPhoto(true);
         setError("");
@@ -123,17 +125,17 @@ const UpdateInfo = () => {
             const data = await response.json();
 
             if (data.success) {
-                setSuccessMessage("Photo deleted successfully!");
+                setSuccessMessage(t('updateInfo.photoDeleted'));
                 setMemberData({ ...memberData, profile_photo: null });
                 setFormData({ ...formData, profile_photo: "" });
                 setPhotoPreview(null);
 
                 setTimeout(() => setSuccessMessage(""), 3000);
             } else {
-                setError(data.message || "Failed to delete photo");
+                setError(data.message || t('updateInfo.deleteFailed'));
             }
         } catch (err) {
-            setError("Failed to delete photo. Please try again.");
+            setError(t('updateInfo.deleteFailed'));
             console.error("Photo delete error:", err);
         } finally {
             setUploadingPhoto(false);
@@ -175,7 +177,7 @@ const UpdateInfo = () => {
                 setError(data.message || "Authentication failed");
             }
         } catch (err) {
-            setError("Connection error. Please make sure the backend server is running.");
+            setError(t('updateInfo.connectionError'));
             console.error("Login error:", err);
         } finally {
             setLoading(false);
@@ -200,7 +202,7 @@ const UpdateInfo = () => {
             const data = await response.json();
 
             if (data.success) {
-                setSuccessMessage("Information updated successfully!");
+                setSuccessMessage(t('updateInfo.infoUpdated'));
                 setMemberData(data.data);
 
                 setFormData({
@@ -219,7 +221,7 @@ const UpdateInfo = () => {
                 setError(data.message || "Update failed");
             }
         } catch (err) {
-            setError("Connection error. Please make sure the backend server is running.");
+            setError(t('updateInfo.connectionError'));
             console.error("Update error:", err);
         } finally {
             setLoading(false);
@@ -249,14 +251,14 @@ const UpdateInfo = () => {
         return (
             <div className="min-h-screen py-8 px-[4%] md:px-[5%] bg-cream-white">
                 <div className="text-center mb-12 py-8">
-                    <h1 className="text-4xl md:text-5xl gradient-text mb-2 font-bold">Member Login</h1>
-                    <p className="text-text-dark/80 text-lg">Enter your credentials to update your information</p>
+                    <h1 className="text-4xl md:text-5xl gradient-text mb-2 font-bold">{t('updateInfo.memberLogin')}</h1>
+                    <p className="text-text-dark/80 text-lg">{t('updateInfo.enterCredentials')}</p>
                 </div>
 
                 <div className="max-w-[500px] mx-auto">
                     <form onSubmit={handleLogin} className="bg-white rounded-2xl shadow-md-custom p-6 md:p-10">
                         <div>
-                            <h3 className="text-xl text-gold-accent mb-6 pb-3 border-b-2 border-emerald-subtle font-semibold">Authentication</h3>
+                            <h3 className="text-xl text-gold-accent mb-6 pb-3 border-b-2 border-emerald-subtle font-semibold">{t('updateInfo.authentication')}</h3>
 
                             {error && (
                                 <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-lg mb-6 text-sm">
@@ -265,7 +267,7 @@ const UpdateInfo = () => {
                             )}
 
                             <div className="mb-5">
-                                <label htmlFor="sl_no" className="block text-text-dark font-semibold mb-2 text-sm">Serial Number *</label>
+                                <label htmlFor="sl_no" className="block text-text-dark font-semibold mb-2 text-sm">{t('updateInfo.serialNumber')} *</label>
                                 <input
                                     type="number"
                                     id="sl_no"
@@ -273,14 +275,14 @@ const UpdateInfo = () => {
                                     value={credentials.sl_no}
                                     onChange={handleCredentialChange}
                                     required
-                                    placeholder="Enter your serial number"
+                                    placeholder={t('updateInfo.enterSerial')}
                                     disabled={loading}
                                     className="input-field"
                                 />
                             </div>
 
                             <div className="mb-5">
-                                <label htmlFor="otp_password" className="block text-text-dark font-semibold mb-2 text-sm">OTP Password *</label>
+                                <label htmlFor="otp_password" className="block text-text-dark font-semibold mb-2 text-sm">{t('updateInfo.otpPassword')} *</label>
                                 <input
                                     type="password"
                                     id="otp_password"
@@ -288,7 +290,7 @@ const UpdateInfo = () => {
                                     value={credentials.otp_password}
                                     onChange={handleCredentialChange}
                                     required
-                                    placeholder="Enter your OTP password"
+                                    placeholder={t('updateInfo.enterOtp')}
                                     disabled={loading}
                                     className="input-field"
                                 />
@@ -300,7 +302,7 @@ const UpdateInfo = () => {
                                     className="btn-primary w-full py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                                     disabled={loading}
                                 >
-                                    {loading ? "Logging in..." : "Login"}
+                                    {loading ? t('updateInfo.loggingIn') : t('updateInfo.login')}
                                 </button>
                             </div>
                         </div>
@@ -314,7 +316,7 @@ const UpdateInfo = () => {
     return (
         <div className="min-h-screen py-8 px-[4%] md:px-[5%] bg-cream-white">
             <div className="text-center mb-8 py-4">
-                <h1 className="text-3xl md:text-4xl gradient-text mb-4 font-bold">Update Your Information</h1>
+                <h1 className="text-3xl md:text-4xl gradient-text mb-4 font-bold">{t('updateInfo.title')}</h1>
 
                 {/* Profile Photo Section */}
                 <div className="flex flex-col items-center gap-4 my-6">
@@ -343,7 +345,7 @@ const UpdateInfo = () => {
                             className="hidden"
                         />
                         <label htmlFor="photo-upload" className="btn-secondary cursor-pointer text-sm py-2 px-4">
-                            📷 Choose Photo
+                            {t('updateInfo.choosePhoto')}
                         </label>
 
                         {photoFile && (
@@ -353,7 +355,7 @@ const UpdateInfo = () => {
                                 disabled={uploadingPhoto}
                                 className="btn-primary text-sm py-2 px-4 disabled:opacity-50"
                             >
-                                {uploadingPhoto ? '⏳ Uploading...' : '✓ Upload Photo'}
+                                {uploadingPhoto ? t('updateInfo.uploading') : t('updateInfo.uploadPhoto')}
                             </button>
                         )}
 
@@ -364,15 +366,15 @@ const UpdateInfo = () => {
                                 disabled={uploadingPhoto}
                                 className="bg-red-500 text-white text-sm py-2 px-4 rounded-lg hover:bg-red-600 transition-all disabled:opacity-50"
                             >
-                                {uploadingPhoto ? '⏳ Deleting...' : '🗑️ Remove Photo'}
+                                {uploadingPhoto ? t('updateInfo.deleting') : t('updateInfo.removePhoto')}
                             </button>
                         )}
                     </div>
                 </div>
 
-                <p className="text-text-dark text-lg">Welcome, <span className="font-semibold text-gold-accent">{memberData?.name}</span></p>
+                <p className="text-text-dark text-lg">{t('updateInfo.welcome')} <span className="font-semibold text-gold-accent">{memberData?.name}</span></p>
                 <button onClick={handleLogout} className="mt-4 text-red-500 font-semibold hover:text-red-600 transition-all text-sm">
-                    Logout
+                    {t('updateInfo.logout')}
                 </button>
             </div>
 
@@ -380,11 +382,11 @@ const UpdateInfo = () => {
                 <form onSubmit={handleUpdate} className="bg-white rounded-2xl shadow-md-custom p-6 md:p-10">
                     {/* Read-only Information */}
                     <div className="mb-8 pb-6 border-b border-gray-200">
-                        <h3 className="text-xl text-gold-accent mb-6 font-semibold">Member Information (Read-Only)</h3>
+                        <h3 className="text-xl text-gold-accent mb-6 font-semibold">{t('updateInfo.memberInfoReadOnly')}</h3>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-text-dark font-semibold mb-2 text-sm">Serial Number</label>
+                                <label className="block text-text-dark font-semibold mb-2 text-sm">{t('updateInfo.serialNumber')}</label>
                                 <input
                                     type="text"
                                     value={memberData?.sl_no || ""}
@@ -394,7 +396,7 @@ const UpdateInfo = () => {
                             </div>
 
                             <div>
-                                <label className="block text-text-dark font-semibold mb-2 text-sm">Name</label>
+                                <label className="block text-text-dark font-semibold mb-2 text-sm">{t('updateInfo.name')}</label>
                                 <input
                                     type="text"
                                     value={memberData?.name || ""}
@@ -407,7 +409,7 @@ const UpdateInfo = () => {
 
                     {/* Editable Information */}
                     <div>
-                        <h3 className="text-xl text-gold-accent mb-6 font-semibold">Personal Details</h3>
+                        <h3 className="text-xl text-gold-accent mb-6 font-semibold">{t('updateInfo.personalDetails')}</h3>
 
                         {error && (
                             <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-lg mb-6 text-sm">
@@ -421,14 +423,14 @@ const UpdateInfo = () => {
                         )}
 
                         <div className="mb-5">
-                            <label htmlFor="address" className="block text-text-dark font-semibold mb-2 text-sm">Address</label>
+                            <label htmlFor="address" className="block text-text-dark font-semibold mb-2 text-sm">{t('updateInfo.address')}</label>
                             <textarea
                                 id="address"
                                 name="address"
                                 value={formData.address}
                                 onChange={handleFormChange}
                                 rows="3"
-                                placeholder="Enter your address"
+                                placeholder={t('updateInfo.enterAddress')}
                                 disabled={loading}
                                 className="input-field resize-none"
                             ></textarea>
@@ -436,7 +438,7 @@ const UpdateInfo = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
                             <div>
-                                <label htmlFor="mobile_no" className="block text-text-dark font-semibold mb-2 text-sm">Mobile Number</label>
+                                <label htmlFor="mobile_no" className="block text-text-dark font-semibold mb-2 text-sm">{t('updateInfo.mobileNumber')}</label>
                                 <input
                                     type="tel"
                                     id="mobile_no"
@@ -450,7 +452,7 @@ const UpdateInfo = () => {
                             </div>
 
                             <div>
-                                <label htmlFor="email" className="block text-text-dark font-semibold mb-2 text-sm">Email Address</label>
+                                <label htmlFor="email" className="block text-text-dark font-semibold mb-2 text-sm">{t('updateInfo.emailAddress')}</label>
                                 <input
                                     type="email"
                                     id="email"
@@ -466,21 +468,21 @@ const UpdateInfo = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
                             <div>
-                                <label htmlFor="occupation" className="block text-text-dark font-semibold mb-2 text-sm">Occupation</label>
+                                <label htmlFor="occupation" className="block text-text-dark font-semibold mb-2 text-sm">{t('updateInfo.occupation')}</label>
                                 <input
                                     type="text"
                                     id="occupation"
                                     name="occupation"
                                     value={formData.occupation}
                                     onChange={handleFormChange}
-                                    placeholder="Your occupation"
+                                    placeholder={t('updateInfo.yourOccupation')}
                                     disabled={loading}
                                     className="input-field"
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="blood_group" className="block text-text-dark font-semibold mb-2 text-sm">Blood Group</label>
+                                <label htmlFor="blood_group" className="block text-text-dark font-semibold mb-2 text-sm">{t('updateInfo.bloodGroup')}</label>
                                 <select
                                     id="blood_group"
                                     name="blood_group"
@@ -489,7 +491,7 @@ const UpdateInfo = () => {
                                     disabled={loading}
                                     className="input-field"
                                 >
-                                    <option value="">Select Blood Group</option>
+                                    <option value="">{t('updateInfo.selectBloodGroup')}</option>
                                     <option value="A+">A+</option>
                                     <option value="A-">A-</option>
                                     <option value="B+">B+</option>
@@ -504,21 +506,21 @@ const UpdateInfo = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
                             <div>
-                                <label htmlFor="native_place" className="block text-text-dark font-semibold mb-2 text-sm">Native Place</label>
+                                <label htmlFor="native_place" className="block text-text-dark font-semibold mb-2 text-sm">{t('updateInfo.nativePlace')}</label>
                                 <input
                                     type="text"
                                     id="native_place"
                                     name="native_place"
                                     value={formData.native_place}
                                     onChange={handleFormChange}
-                                    placeholder="Your native place"
+                                    placeholder={t('updateInfo.yourNativePlace')}
                                     disabled={loading}
                                     className="input-field"
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="current_status" className="block text-text-dark font-semibold mb-2 text-sm">Current Status</label>
+                                <label htmlFor="current_status" className="block text-text-dark font-semibold mb-2 text-sm">{t('updateInfo.currentStatus')}</label>
                                 <input
                                     type="text"
                                     id="current_status"
@@ -533,14 +535,14 @@ const UpdateInfo = () => {
                         </div>
 
                         <div className="mb-5">
-                            <label htmlFor="family_members" className="block text-text-dark font-semibold mb-2 text-sm">Family Members</label>
+                            <label htmlFor="family_members" className="block text-text-dark font-semibold mb-2 text-sm">{t('updateInfo.familyMembers')}</label>
                             <textarea
                                 id="family_members"
                                 name="family_members"
                                 value={formData.family_members}
                                 onChange={handleFormChange}
                                 rows="3"
-                                placeholder="Enter family member details"
+                                placeholder={t('updateInfo.enterFamilyDetails')}
                                 disabled={loading}
                                 className="input-field resize-none"
                             ></textarea>
@@ -553,7 +555,7 @@ const UpdateInfo = () => {
                             className="btn-primary flex-1 py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                             disabled={loading}
                         >
-                            {loading ? "Updating..." : "Update Information"}
+                            {loading ? t('updateInfo.updating') : t('updateInfo.updateInformation')}
                         </button>
                         <button
                             type="button"
@@ -574,7 +576,7 @@ const UpdateInfo = () => {
                             className="btn-secondary flex-1 py-4 text-lg disabled:opacity-50"
                             disabled={loading}
                         >
-                            Reset Form
+                            {t('updateInfo.resetForm')}
                         </button>
                     </div>
                 </form>
