@@ -28,20 +28,20 @@ const SocialWork = () => {
         if (index === 0) {
             return {
                 ...photo,
-                title: "Kerala Floods Relief Program",
-                subtitle: "Supporting Flood-Affected Families",
-                description: "In response to the devastating Kerala floods, Kerala Samajam Vasai East organized an extensive relief program to support affected families. Our community came together to provide essential supplies, food, clothing, and financial assistance to those who lost their homes and livelihoods.",
-                details: "The relief efforts included distribution of emergency supplies, setting up temporary shelters, and coordinating with local authorities to ensure comprehensive support. Our members contributed generously, and the collective effort made a significant difference in helping families rebuild their lives during this difficult period.",
-                date: "August 2018"
+                title: t('socialWork.initiative1Title'),
+                subtitle: t('socialWork.initiative1Subtitle'),
+                description: t('socialWork.initiative1Desc'),
+                details: t('socialWork.initiative1Details'),
+                date: t('socialWork.initiative1Date')
             };
         } else {
             return {
                 ...photo,
-                title: "Pahalgam Terror Attack Support",
-                subtitle: "Standing with the Victims and Families",
-                description: "Following the tragic Pahalgam terror attack, Kerala Samajam Vasai East extended heartfelt support to the victims and their families. Our community organized fundraising initiatives and provided financial assistance to help the affected families during their time of grief.",
-                details: "The support program focused on providing immediate financial relief to the families of victims, coordinating with relief organizations, and raising awareness about the need for continued support.",
-                date: "April 2025"
+                title: t('socialWork.initiative2Title'),
+                subtitle: t('socialWork.initiative2Subtitle'),
+                description: t('socialWork.initiative2Desc'),
+                details: t('socialWork.initiative2Details'),
+                date: t('socialWork.initiative2Date')
             };
         }
     });
