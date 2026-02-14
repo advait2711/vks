@@ -1,8 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 const AlbumView = ({ photos, eventName, onClose }) => {
     const [selectedPhoto, setSelectedPhoto] = useState(null);
+
+    // Lock body scroll when album is open
+    useEffect(() => {
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, []);
 
     const handlePhotoClick = (photo) => {
         setSelectedPhoto(photo);
@@ -13,35 +21,39 @@ const AlbumView = ({ photos, eventName, onClose }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/90 z-[1000] overflow-y-auto animate-fade-in">
-            <div className="max-w-[1400px] mx-auto my-8 px-4 md:px-8">
-                <div className="flex justify-between items-center mb-8 pb-4 border-b-2 border-white/20">
-                    <h2 className="text-white text-2xl md:text-4xl font-bold m-0">{eventName}</h2>
-                    <button
-                        className="bg-white/10 text-white border-2 border-white w-10 h-10 md:w-12 md:h-12 rounded-full text-lg md:text-2xl cursor-pointer transition-all duration-300 flex items-center justify-center hover:bg-white hover:text-[#2c5f2d] hover:rotate-90"
-                        onClick={onClose}
-                    >
-                        ✕
-                    </button>
-                </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 py-4">
-                    {photos.map((photo) => (
-                        <div
-                            key={photo.id}
-                            className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 bg-[#1a1a1a] aspect-square hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(255,255,255,0.2)] group"
-                            onClick={() => handlePhotoClick(photo)}
+        <>
+            {/* Album Grid Overlay */}
+            <div className="fixed inset-0 bg-black/90 z-[1000] overflow-y-auto animate-fade-in">
+                <div className="max-w-[1400px] mx-auto my-8 px-4 md:px-8">
+                    <div className="flex justify-between items-center mb-8 pb-4 border-b-2 border-white/20">
+                        <h2 className="text-white text-2xl md:text-4xl font-bold m-0">{eventName}</h2>
+                        <button
+                            className="bg-white/10 text-white border-2 border-white w-10 h-10 md:w-12 md:h-12 rounded-full text-lg md:text-2xl cursor-pointer transition-all duration-300 flex items-center justify-center hover:bg-white hover:text-[#2c5f2d] hover:rotate-90"
+                            onClick={onClose}
                         >
-                            <img
-                                src={photo.photo_url}
-                                alt={photo.description || eventName}
-                                className="w-full h-full object-cover block transition-transform duration-300 group-hover:scale-105"
-                            />
-                        </div>
-                    ))}
+                            ✕
+                        </button>
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 py-4">
+                        {photos.map((photo) => (
+                            <div
+                                key={photo.id}
+                                className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 bg-[#1a1a1a] aspect-square hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(255,255,255,0.2)] group"
+                                onClick={() => handlePhotoClick(photo)}
+                            >
+                                <img
+                                    src={photo.photo_url}
+                                    alt={photo.description || eventName}
+                                    className="w-full h-full object-cover block transition-transform duration-300 group-hover:scale-105"
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
 
+            {/* Selected Photo Modal - rendered OUTSIDE the scrollable album */}
             {selectedPhoto && (
                 <div
                     className="fixed inset-0 bg-black/95 z-[1100] flex items-center justify-center p-4 md:p-8 animate-fade-in"
@@ -65,7 +77,7 @@ const AlbumView = ({ photos, eventName, onClose }) => {
                     </div>
                 </div>
             )}
-        </div>
+        </>
     );
 };
 
