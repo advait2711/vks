@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
@@ -7,6 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 const NewsDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
     const [article, setArticle] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -18,7 +20,7 @@ const NewsDetail = () => {
                 setArticle(response.data.data);
             } catch (err) {
                 console.error('Error fetching article:', err);
-                setError('Failed to load article');
+                setError(t('newsDetail.failedToLoad'));
             } finally {
                 setIsLoading(false);
             }
@@ -29,7 +31,8 @@ const NewsDetail = () => {
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
+        const locale = i18n.language === 'ml' ? 'ml-IN' : 'en-US';
+        return date.toLocaleDateString(locale, {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
@@ -39,7 +42,7 @@ const NewsDetail = () => {
     if (isLoading) {
         return (
             <div className="min-h-screen py-8 bg-cream-white">
-                <div className="text-center py-16 text-emerald-primary text-xl">Loading article...</div>
+                <div className="text-center py-16 text-emerald-primary text-xl">{t('newsDetail.loadingArticle')}</div>
             </div>
         );
     }
@@ -48,13 +51,13 @@ const NewsDetail = () => {
         return (
             <div className="min-h-screen py-8 bg-cream-white">
                 <div className="text-center py-16 px-8">
-                    <h2 className="text-3xl text-text-dark mb-4">Article Not Found</h2>
-                    <p className="text-gray-500 text-lg mb-8">{error || 'The article you are looking for does not exist.'}</p>
+                    <h2 className="text-3xl text-text-dark mb-4">{t('newsDetail.articleNotFound')}</h2>
+                    <p className="text-gray-500 text-lg mb-8">{error || t('newsDetail.articleNotFoundDesc')}</p>
                     <button
                         onClick={() => navigate('/news')}
                         className="inline-flex items-center gap-2 py-3 px-6 bg-white text-emerald-primary border-2 border-emerald-primary rounded-xl text-base font-semibold cursor-pointer transition-all duration-300 hover:bg-emerald-primary hover:text-white hover:-translate-x-1"
                     >
-                        ← Back to News
+                        {t('newsDetail.backToNews')}
                     </button>
                 </div>
             </div>
@@ -68,7 +71,7 @@ const NewsDetail = () => {
                     onClick={() => navigate('/news')}
                     className="inline-flex items-center gap-2 py-3 px-6 bg-white text-emerald-primary border-2 border-emerald-primary rounded-xl text-base font-semibold cursor-pointer transition-all duration-300 mb-8 hover:bg-emerald-primary hover:text-white hover:-translate-x-1"
                 >
-                    ← Back to News
+                    {t('newsDetail.backToNews')}
                 </button>
 
                 <article className="bg-white rounded-2xl overflow-hidden shadow-md-custom animate-fade-in">
