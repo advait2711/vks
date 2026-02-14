@@ -29,12 +29,6 @@ const Footer = () => {
           <p className="text-text-dark/80 text-[0.95rem] leading-7">
             {t('footer.description')}
           </p>
-          <div className="flex gap-4 mt-4">
-            <a href="#" className="w-10 h-10 rounded-full bg-white border-2 border-gold-primary flex items-center justify-center transition-all duration-300 text-gold-accent text-xl no-underline hover:bg-gradient-to-br hover:from-gold-primary hover:to-emerald-primary hover:text-white hover:border-emerald-primary hover:-translate-y-1 hover:rotate-[5deg] hover:shadow-gold" aria-label="Facebook">📘</a>
-            <a href="#" className="w-10 h-10 rounded-full bg-white border-2 border-gold-primary flex items-center justify-center transition-all duration-300 text-gold-accent text-xl no-underline hover:bg-gradient-to-br hover:from-gold-primary hover:to-emerald-primary hover:text-white hover:border-emerald-primary hover:-translate-y-1 hover:rotate-[5deg] hover:shadow-gold" aria-label="Twitter">🐦</a>
-            <a href="#" className="w-10 h-10 rounded-full bg-white border-2 border-gold-primary flex items-center justify-center transition-all duration-300 text-gold-accent text-xl no-underline hover:bg-gradient-to-br hover:from-gold-primary hover:to-emerald-primary hover:text-white hover:border-emerald-primary hover:-translate-y-1 hover:rotate-[5deg] hover:shadow-gold" aria-label="Instagram">📷</a>
-            <a href="#" className="w-10 h-10 rounded-full bg-white border-2 border-gold-primary flex items-center justify-center transition-all duration-300 text-gold-accent text-xl no-underline hover:bg-gradient-to-br hover:from-gold-primary hover:to-emerald-primary hover:text-white hover:border-emerald-primary hover:-translate-y-1 hover:rotate-[5deg] hover:shadow-gold" aria-label="YouTube">📺</a>
-          </div>
         </div>
 
         {/* Quick Links */}
@@ -56,7 +50,7 @@ const Footer = () => {
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-3">
               <span className="text-xl text-emerald-primary">📍</span>
-              <p className="m-0 text-text-dark/80 text-[0.95rem]">B/5, Ground Floor, A/10, Shree Mahalaxmi CHS Ltd., Dewan & Sons Enclave, Vasai (E), Dist. Palghar - 401 208</p>
+              <p className="m-0 text-text-dark/80 text-[0.95rem]">{t('footer.address')}</p>
             </div>
             <div className="flex items-center gap-3">
               <span className="text-xl text-emerald-primary">📞</span>
