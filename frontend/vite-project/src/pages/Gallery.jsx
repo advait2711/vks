@@ -88,7 +88,7 @@ const Gallery = () => {
             </div>
 
             <div className="max-w-[1200px] mx-auto mb-8 flex justify-center items-center gap-4 flex-wrap">
-                <div className="flex flex-col md:flex-row items-center gap-4 bg-white py-4 px-6 md:px-8 rounded-xl shadow-md w-full md:w-auto max-w-[400px]">
+                <div className="flex flex-col md:flex-row items-center gap-4 bg-white py-4 px-6 md:px-8 rounded-xl shadow-md w-full md:w-auto max-w-[500px]">
                     <label htmlFor="year-select" className="font-semibold text-[#2c5f2d] text-lg">{t('gallery.selectYear')}:</label>
                     <select
                         id="year-select"
@@ -105,8 +105,8 @@ const Gallery = () => {
                 </div>
 
                 {availableEvents.length > 1 && (
-                    <div className="flex flex-col md:flex-row items-center gap-4 bg-white py-4 px-6 md:px-8 rounded-xl shadow-md w-full md:w-auto max-w-[400px]">
-                        <label htmlFor="event-select" className="font-semibold text-[#2c5f2d] text-lg">Select Event:</label>
+                    <div className="flex flex-col md:flex-row items-center gap-4 bg-white py-4 px-6 md:px-8 rounded-xl shadow-md w-full md:w-auto max-w-[500px]">
+                        <label htmlFor="event-select" className="font-semibold text-[#2c5f2d] text-lg">{t('gallery.selectEvent')}:</label>
                         <select
                             id="event-select"
                             value={selectedEvent || ""}
