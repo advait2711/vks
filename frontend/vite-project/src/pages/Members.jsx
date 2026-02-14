@@ -53,7 +53,7 @@ const Members = () => {
             <div className="mt-4">
                 <h3 className={`${isPresident ? 'text-2xl' : 'text-xl'} text-text-dark mb-2 font-semibold`}>{bearer.name}</h3>
                 <span className={`inline-block font-semibold ${isPresident ? 'text-lg py-2 px-7' : 'text-base py-2 px-6'} bg-gradient-to-br from-gold-primary to-emerald-primary text-white rounded-full shadow-md`}>
-                    {bearer.designation}
+                    {t(`members.designations.${bearer.designation}`, bearer.designation)}
                 </span>
             </div>
         </div>
@@ -71,7 +71,7 @@ const Members = () => {
             <div>
                 <h4 className="text-sm md:text-lg text-text-dark mb-1 font-semibold">{member.name}</h4>
                 <span className="inline-block text-emerald-primary font-medium text-xs md:text-sm py-1 px-3 md:px-4 bg-gradient-to-br from-gold-primary/10 to-emerald-primary/10 rounded-full">
-                    {member.designation}
+                    {t(`members.designations.${member.designation}`, member.designation)}
                 </span>
             </div>
         </div>
