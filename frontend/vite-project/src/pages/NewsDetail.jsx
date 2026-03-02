@@ -80,7 +80,7 @@ const NewsDetail = () => {
                     {article.image_url && (
                         <div
                             className="w-full h-[250px] md:h-[400px] bg-cover bg-center bg-gray-100 cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
-                            style={{ backgroundImage: `url(${article.image_url})` }}
+                            style={{ backgroundImage: `url("${article.image_url}")` }}
                             onClick={() => setIsImageModalOpen(true)}
                         />
                     )}
