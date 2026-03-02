@@ -176,7 +176,7 @@ const NewsManagement = () => {
                                 {news.image_url && (
                                     <div
                                         className="h-48 bg-cover bg-center"
-                                        style={{ backgroundImage: `url(${news.image_url})` }}
+                                        style={{ backgroundImage: `url("${news.image_url}")` }}
                                     />
                                 )}
                                 <div className="p-5">
@@ -206,20 +206,22 @@ const NewsManagement = () => {
 
             {/* Modal */}
             {showModal && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" onClick={closeModal}>
-                    <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-                        <div className="flex items-center justify-between p-5 border-b border-gray-200">
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 pt-20" onClick={closeModal}>
+                    <div className="bg-white rounded-2xl w-full max-w-2xl flex flex-col max-h-[90vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                        {/* Fixed Header */}
+                        <div className="flex items-center justify-between p-5 border-b border-gray-200 shrink-0 bg-white z-10">
                             <h2 className="text-xl font-bold text-text-dark">{editingNews ? 'Edit News Article' : 'Create News Article'}</h2>
-                            <button onClick={closeModal} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-all">✕</button>
+                            <button type="button" onClick={closeModal} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-all">✕</button>
                         </div>
 
                         {error && (
-                            <div className="mx-5 mt-5 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                            <div className="mx-5 mt-5 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg shrink-0">
                                 {error}
                             </div>
                         )}
 
-                        <form onSubmit={handleSubmit} className="p-5">
+                        {/* Scrollable Form Body */}
+                        <form id="news-form" onSubmit={handleSubmit} className="p-5 flex-1 overflow-y-auto">
                             <div className="mb-4">
                                 <label className="block text-text-dark font-semibold mb-2 text-sm">Title *</label>
                                 <input
@@ -288,16 +290,17 @@ const NewsManagement = () => {
                                     className="input-field resize-none"
                                 />
                             </div>
-
-                            <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4 border-t border-gray-200">
-                                <button type="button" onClick={closeModal} className="btn-secondary flex-1">
-                                    Cancel
-                                </button>
-                                <button type="submit" className="btn-primary flex-1">
-                                    {editingNews ? 'Update Article' : 'Create Article'}
-                                </button>
-                            </div>
                         </form>
+
+                        {/* Fixed Footer */}
+                        <div className="flex flex-col-reverse sm:flex-row gap-3 p-5 border-t border-gray-200 shrink-0 bg-white">
+                            <button type="button" onClick={closeModal} className="btn-secondary flex-1">
+                                Cancel
+                            </button>
+                            <button type="submit" form="news-form" className="btn-primary flex-1">
+                                {editingNews ? 'Update Article' : 'Create Article'}
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
