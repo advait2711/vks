@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import { X } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
@@ -12,6 +13,7 @@ const NewsDetail = () => {
     const [article, setArticle] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchArticle = async () => {
@@ -74,11 +76,12 @@ const NewsDetail = () => {
                     {t('newsDetail.backToNews')}
                 </button>
 
-                <article className="bg-white rounded-2xl overflow-hidden shadow-md-custom animate-fade-in">
+                <article className="bg-white rounded-2xl overflow-hidden shadow-md-custom animate-fade-in relative">
                     {article.image_url && (
                         <div
-                            className="w-full h-[250px] md:h-[400px] bg-cover bg-center bg-gray-100"
+                            className="w-full h-[250px] md:h-[400px] bg-cover bg-center bg-gray-100 cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
                             style={{ backgroundImage: `url(${article.image_url})` }}
+                            onClick={() => setIsImageModalOpen(true)}
                         />
                     )}
 
@@ -100,6 +103,33 @@ const NewsDetail = () => {
                     </div>
                 </article>
             </div>
+
+            {/* Full-screen Image Modal */}
+            {isImageModalOpen && article?.image_url && (
+                <div
+                    className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 backdrop-blur-sm cursor-zoom-out animate-fade-in"
+                    onClick={() => setIsImageModalOpen(false)}
+                >
+                    <div className="relative max-w-full max-h-[90vh]">
+                        <button
+                            className="absolute top-2 right-2 md:top-4 md:right-4 bg-black/50 hover:bg-black/80 rounded-full text-white/90 hover:text-white transition-all p-1.5 md:p-2 z-[110] cursor-pointer"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsImageModalOpen(false);
+                            }}
+                        >
+                            <X size={24} />
+                        </button>
+
+                        <img
+                            src={article.image_url}
+                            alt={article.title}
+                            className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl cursor-default"
+                            onClick={(e) => e.stopPropagation()}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
