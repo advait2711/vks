@@ -74,11 +74,11 @@ const Navbar = () => {
             {t('navbar.aboutUs')}
           </Link>
         </li>
-        <li className="md:text-gold-accent md:font-semibold w-full md:w-auto py-4 md:py-2 text-lg md:text-base group" onClick={closeMenu}>
+        {/* <li className="md:text-gold-accent md:font-semibold w-full md:w-auto py-4 md:py-2 text-lg md:text-base group" onClick={closeMenu}>
           <Link to="/update-info" className="text-inherit no-underline block relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-gold-primary after:to-emerald-primary after:transition-all after:duration-300 group-hover:after:w-full group-hover:text-gold-accent group-hover:-translate-y-0.5">
             {t('navbar.updateInfo')}
           </Link>
-        </li>
+        </li> */}
         <li className="md:ml-4 md:pl-4 md:border-l md:border-gray-200 border-b-0 after:hidden">
           <LanguageSwitcher />
         </li>
