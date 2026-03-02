@@ -80,7 +80,7 @@ const News = () => {
                             {article.image_url && (
                                 <div
                                     className="w-full h-[180px] md:h-[220px] bg-cover bg-center"
-                                    style={{ backgroundImage: `url(${article.image_url})` }}
+                                    style={{ backgroundImage: `url("${article.image_url}")` }}
                                 ></div>
                             )}
                             <div className="p-6">
