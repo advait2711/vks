@@ -15,7 +15,7 @@ const Gallery = () => {
     const [loading, setLoading] = useState(true);
     const { t } = useTranslation();
 
-    const years = ["Earlier Glimpse", "2024-2025", "2025-2026"];
+    const years = ["Earlier Glimpse", "2024-2025", "2025-2026", "2026-2027"];
 
     useEffect(() => {
         const fetchEvents = async () => {
