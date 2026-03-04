@@ -141,8 +141,8 @@ const Gallery = () => {
                         {slideshowPhotos.map((photo, index) => (
                             <div
                                 key={photo.id}
-                                className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
-                                style={{ backgroundImage: `url(${photo.photo_url})` }}
+                                className={`absolute inset-0 bg-contain bg-center bg-no-repeat transition-opacity duration-1000 ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
+                                style={{ backgroundImage: `url(${photo.photo_url})`, backgroundColor: '#111' }}
                             >
                                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-8 flex justify-end items-end">
                                     <span className="bg-white/90 text-[#2c5f2d] py-2 px-4 rounded-full font-semibold text-sm">
