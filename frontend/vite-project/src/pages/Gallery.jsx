@@ -141,9 +141,18 @@ const Gallery = () => {
                         {slideshowPhotos.map((photo, index) => (
                             <div
                                 key={photo.id}
-                                className={`absolute inset-0 bg-contain bg-center bg-no-repeat transition-opacity duration-1000 ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
-                                style={{ backgroundImage: `url(${photo.photo_url})`, backgroundColor: '#111' }}
+                                className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
                             >
+                                {/* Blurred backdrop fills the space */}
+                                <div
+                                    className="absolute inset-0 bg-cover bg-center scale-110"
+                                    style={{ backgroundImage: `url(${photo.photo_url})`, filter: 'blur(18px) brightness(0.5)' }}
+                                />
+                                {/* Sharp full photo on top */}
+                                <div
+                                    className="absolute inset-0 bg-contain bg-center bg-no-repeat"
+                                    style={{ backgroundImage: `url(${photo.photo_url})` }}
+                                />
                                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-8 flex justify-end items-end">
                                     <span className="bg-white/90 text-[#2c5f2d] py-2 px-4 rounded-full font-semibold text-sm">
                                         {index + 1} / {slideshowPhotos.length}
@@ -151,6 +160,7 @@ const Gallery = () => {
                                 </div>
                             </div>
                         ))}
+
                     </div>
 
                     <div className="max-w-[1200px] mx-auto flex justify-center">
