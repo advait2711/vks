@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -67,7 +67,11 @@ const Footer = () => {
       {/* Footer Bottom */}
       <div className="border-t border-black/10 pt-6 text-center text-sm text-text-dark/70">
         <p className="my-1">© {new Date().getFullYear()} {t('footer.copyright')}</p>
-        <p className="my-1">{t('footer.madeWith')}</p>
+        <p className="my-1">
+          <Trans i18nKey="footer.madeWith">
+            Made with ❤️ by <a href="https://advait27.in/" target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-primary hover:text-emerald-700 hover:underline transition-colors duration-300">Advait</a>
+          </Trans>
+        </p>
       </div>
     </footer>
   );
